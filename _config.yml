@@ -1,13 +1,6 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your entire site, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# `jekyll serve`. If you change this file, please restart the server process.
-
 # Site Settings
 title                    : "Yi Xin (辛毅)"
-description              : "Ph.D student in Nanjing University, Internship in Tencent YouTu Lab. Focusing on Transfer Learning, Multimodal and Video Content Understanding."
+description              : "Ph.D student in Nanjing University.Focusing on Transfer Learning, Multimodal and Video Content Understanding."
 repository               : "https://github.com/synbol"
 google_scholar_stats_use_cdn : true
 
@@ -21,7 +14,7 @@ baidu_site_verification  : code-ZxFK3f4pfb
 
 # Site Author
 author:
-  name             : "Yi Ren (任意)"
+  name             : "Yi Xin (辛毅)"
   avatar           : "images/xy_profile.jpeg"
   bio              : 
   location         : "Nanjing"
