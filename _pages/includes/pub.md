@@ -1,8 +1,8 @@
 # 📝 Publications 
 ## 🎙 Conference
 - [**PrePrint**] S Luo, ***Y Xin***, L Jun, etc. [Few-Shot Test Time Adaptation]().
-- [**PrePrint**] ***Y Xin***, L Jun, Q Wang, K Yan, S Ding. [MmAP : Multi-modal Alignment Prompt for Cross-domain Multi-Task Learning]().
-- [**PrePrint**] ***Y Xin***, L Jun, Q Wang, K Yan. [VMT-Adapter: Parameter-Efficient Transfer Learning for Multi-Task Dense Scene Understanding]().
+- [**PrePrint**] ***Y Xin***, J Du, Q Wang, K Yan, S Ding. [MmAP : Multi-modal Alignment Prompt for Cross-domain Multi-Task Learning]().
+- [**PrePrint**] ***Y Xin***, J Du, Q Wang, K Yan. [VMT-Adapter: Parameter-Efficient Transfer Learning for Multi-Task Dense Scene Understanding]().
 - [**PrePrint**] Y Du, ***Y Xin***, S Luo, etc. [Multi-source Fully Test-Time Adaptation]().
 - [**PrePrint**] ***Y Xin***, S Luo, etc. [Using Machine Learning to Guide Man OverBoard Rescue]().
 - [**DASFAA'23**] ***Y Xin***, S Luo, P Jin, Y Du, C Wang. [Self-Training with Label-Feature-Consistency for Domain Adaptation](https://link.springer.com/chapter/10.1007/978-3-031-30678-5_7).
