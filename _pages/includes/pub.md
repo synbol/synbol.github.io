@@ -11,4 +11,4 @@
 ## 📚 Journals
 - [**Machine Learning, 2023**] Yuntao Du, Haiyang Yang, Mingcai Chen, Hongtao Luo, Juan Jiang, ***Y Xin***, Chongjun Wang. [Generation, augmentation, and alignment: A pseudo-source domain based method for source-free domain adaptation]().
 
-- - [**MPCE, 2021**] J Wang, X Chen, F Zhang, F Chen, ***Y Xin***. [Building Load Forecasting Using Deep Neural Network with Efficient Feature Fusion](https://ieeexplore.ieee.org/abstract/document/9319813).
+- [**MPCE, 2021**] J Wang, X Chen, F Zhang, F Chen, ***Y Xin***. [Building Load Forecasting Using Deep Neural Network with Efficient Feature Fusion](https://ieeexplore.ieee.org/abstract/document/9319813).
