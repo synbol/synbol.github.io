@@ -13,4 +13,4 @@
 ## 📚 Journals
 - [Generation, augmentation, and alignment: A pseudo-source domain based method for source-free domain adaptation](). Y Du, H Yang, M Chen, H Luo, J Jiang, ***Y Xin***, C Wang. Machine Learning, 2023. (CCF-B)
 
-- [Building Load Forecasting Using Deep Neural Network with Efficient Feature Fusion](https://ieeexplore.ieee.org/abstract/document/9319813). J Wang, X Chen, F Zhang, F Chen, ***Y Xin***. MPCE, 2021. (SCI Q1)
+- [Building Load Forecasting Using Deep Neural Network with Efficient Feature Fusion](https://ieeexplore.ieee.org/abstract/document/9319813). J Wang, X Chen, F Zhang, F Chen, ***Y Xin***. Journal of Modern Power Systems and Clean Energy, 2021. (**SCI Q1**)
