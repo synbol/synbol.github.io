@@ -6,7 +6,7 @@
 
 ## 🎙 Conference
 - [VMT-Adapter: Parameter-Efficient Transfer Learning for Multi-Task Dense Scene Understanding](). **Y Xin**, J Du, Q Wang, Z Lin, K Yan, S Ding. AAAI Conference on Artificial Intelligence, 2024. (**AAAI, CCF-A**)
-- [MmAP : Multi-modal Alignment Prompt for Cross-domain Multi-Task Learning](). **Y Xin**, J Du, Q Wang, K Yan, S Ding. AAAI Conference on Artificial Intelligence, 2024. (**AAAI, CCF-A**)
+- [MmAP : Multi-modal Alignment Prompt for Cross-domain Multi-Task Learning](). **Y Xin**, J Du, Q Wang, K Yan. AAAI Conference on Artificial Intelligence, 2024. (**AAAI, CCF-A**)
 - [Self-Training with Label-Feature-Consistency for Domain Adaptation](https://link.springer.com/chapter/10.1007/978-3-031-30678-5_7). **Y Xin**, S Luo, P Jin, Y Du, C Wang. International Conference on Database Systems for Advanced Applications, 2023. (**DASFAA, CCF-B**)
 - [Weakly and Semi-supervised Deep Level Set Network for Automated Skin Lesion Segmentation](https://link.springer.com/chapter/10.1007/978-981-15-5852-8_14). Z Deng, **Y Xin**, X Qiu, Y Chen. Innovation in Medicine and Healthcare, 2020.
 
