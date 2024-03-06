@@ -1,4 +1,6 @@
 # 🔥 News
+- *2024.03*: One paper was accepted to ICLR Workshop 2024.
+
 - *2023.12*: Two papers were accepted to AAAI Main Track 2024. (CCF-A, Acceptance ratio 23.7%)
 
 - *2023.10*: One paper was accepted to Machine Learning. (CCF-B Journal)
