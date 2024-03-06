@@ -1,10 +1,11 @@
 # 📝 Publications 
 ## PrePrint
-- [Few-Shot Test Time Adaptation](). S Luo, **Y Xin**, J Du, etc. PrePrint
-- [Multi-source Fully Test-Time Adaptation](). Y Du, **Y Xin**, S Luo, etc. PrePrint
-- [Using Machine Learning to Guide Man OverBoard Rescue](). **Y Xin**, S Luo, etc. PrePrint
+- [Few-Shot Test Time Adaptation](). UnderReview.
+- [Parameter-Efficient Fine-Tuning for Pre-Trained Vision Models: A Survey](). UnderReview.
+- [Understanding the Influence of Text Prompts in Text-to-Image Diffusion Model](). UnderReview.
 
 ## 🎙 Conference
+- [Multi-source Fully Test-Time Adaptation](). Y Du, S Luo, **Y Xin**, MingCai Chen, Shuai Feng, Mujie Zhang, Chongjun Wang. International Conference on Learning Representations, 2024. (**ICLR Workshop**)
 - [VMT-Adapter: Parameter-Efficient Transfer Learning for Multi-Task Dense Scene Understanding](). **Y Xin**, J Du, Q Wang, Z Lin, K Yan. AAAI Conference on Artificial Intelligence, 2024. (**AAAI, CCF-A**)
 - [MmAP : Multi-modal Alignment Prompt for Cross-domain Multi-Task Learning](). **Y Xin**, J Du, Q Wang, K Yan, S Ding. AAAI Conference on Artificial Intelligence, 2024. (**AAAI, CCF-A**)
 - [Self-Training with Label-Feature-Consistency for Domain Adaptation](https://link.springer.com/chapter/10.1007/978-3-031-30678-5_7). **Y Xin**, S Luo, P Jin, Y Du, C Wang. International Conference on Database Systems for Advanced Applications, 2023. (**DASFAA, CCF-B, $\color{red}{Oral}$**)
