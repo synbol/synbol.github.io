@@ -2,7 +2,6 @@
 ## PrePrint
 - [Few-Shot Test Time Adaptation](). UnderReview.
 - [Parameter-Efficient Fine-Tuning for Pre-Trained Vision Models: A Survey](). UnderReview.
-- [Understanding the Influence of Text Prompts in Text-to-Image Diffusion Model](). UnderReview.
 
 ## 🎙 Conference
 - [Multi-source Fully Test-Time Adaptation](). Y Du, S Luo, **Y Xin**, MingCai Chen, Shuai Feng, Mujie Zhang, Chongjun Wang. International Conference on Learning Representations, 2024. (**ICLR Workshop**)
