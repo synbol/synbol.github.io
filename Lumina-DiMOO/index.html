@@ -766,7 +766,7 @@
                 </table>
             </div>
 
-            <h3>Comparison with Glyph-Controlled Models</h3>
+            <h3>DPG Benchmark Result</h3>
             <p>
                 We compare our models with state-of-the-art glyph-conditioned methods on the AnyText-Benchmark. Despite not using explicit glyph information, our models achieve competitive performance in text rendering accuracy and superior prompt-image alignment.
             </p>
@@ -776,15 +776,23 @@
                     <thead>
                         <tr>
                             <th>Methods</th>
-                            <th>LeX-Enhancer</th>
-                            <th>Acc ↑</th>
-                            <th>CLIPScore ↑</th>
-                        </tr>
+                            <th>#Params</th>
+                            <th>Global</th>
+                            <th>Entity</th>
+                            <th>Attribute</th>
+                            <th>Relation</th>
+                            <th>Other</th>
+                            <th>Overall ↑</th>
+                        </tr>        
                     </thead>
                     <tbody>
                         <tr>
                             <td>ControlNet</td>
                             <td>-</td>
+                            <td>0.5837</td>
+                            <td>0.8448</td>
+                            <td>0.5837</td>
+                            <td>0.8448</td>
                             <td>0.5837</td>
                             <td>0.8448</td>
                         </tr>
