@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeX-Art: Rethinking Text Generation for Visual Content</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1d4ed8;
+            --accent-color: #60a5fa;
+            --text-color: #1f2937;
+            --light-bg: #f9fafb;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: #ffffff;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            position: relative;
+            overflow: hidden;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSIxMDAiPgo8cmVjdCB3aWR0aD0iNTYiIGhlaWdodD0iMTAwIiBmaWxsPSIjMWUzYThjIj48L3JlY3Q+CjxwYXRoIGQ9Ik0yOCA2NkwwIDUwTDAgMTZMMjggMEw1NiAxNkw1NiA1MEwyOCA2NkwyOCAxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+CjxwYXRoIGQ9Ik0yOCAwTDI4IDY2TDAgNTBMMCA1MEwyOCA2NkwyOCA2Nkw1NiA1MEw1NiA1MEwyOCA2NkwyOCA2NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzhhZmZmIiBzdHJva2Utd2lkdGg9IjEiPjwvcGF0aD4KPC9zdmc+') repeat;
+            opacity: 0.05;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        header h1 {
+            font-size: 3.0rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, #ffffff, #bfdbfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        header h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            max-width: 800px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.9);
+            border: none;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        section {
+            margin: 60px 0;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin: 30px 0 20px;
+            font-weight: 600;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .authors {
+            font-size: 1.1em;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .institution {
+            color: white;
+            font-style: italic;
+        }
+        
+        .image-container {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .image-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .image-container img {
+            max-width: 60%;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+        
+        .image-container:hover img {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .image-container p {
+            font-style: italic;
+            margin-top: 15px;
+            color: #6b7280;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 0.95rem;
+        }
+
+        .lexart-image-container {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .lexart-image-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .lexart-image-container img {
+            max-width: 40%;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+        
+        .lexart-image-container:hover img {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .lexart-image-container p {
+            font-style: italic;
+            margin-top: 15px;
+            color: #6b7280;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 0.95rem;
+        }
+        
+        .abstract {
+            background-color: var(--light-bg);
+            padding: 40px;
+            border-radius: 16px;
+            margin: 40px 0;
+            box-shadow: var(--shadow-sm);
+            border-left: 5px solid var(--accent-color);
+        }
+        
+        .abstract h3 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .abstract h3::before {
+            content: '\f02d';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-card h4 i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .feature-card p {
+            color: #4b5563;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            background-color: white;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+        
+        tr:hover {
+            background-color: #eef2ff;
+        }
+        
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            overflow-x: auto;
+            margin: 30px 0;
+            box-shadow: var(--shadow-md);
+            line-height: 1.6;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .team-member {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .team-member h4 {
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+        
+        .team-member p {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        footer {
+            background-color: #1e293b;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+        }
+        
+        footer p {
+            margin: 0;
+            opacity: 0.8;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        .header-buttons {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .highlight {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+            margin: 80px 0;
+            opacity: 0.5;
+        }
+
+        /* New styles for teaser grid */
+        .teaser-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .teaser-item {
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .teaser-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .teaser-item img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .teaser-item:hover img {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .teaser-caption {
+            font-style: italic;
+            margin-top: 10px;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 0;
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            header h2 {
+                font-size: 1.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            h3 {
+                font-size: 1.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .header-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 80%;
+                text-align: center;
+                margin: 5px 0;
+            }
+
+            /* Responsive teaser grid */
+            .teaser-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .teaser-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <h1>LeX-Art:</h1>
+            <h1>Rethinking Text Generation via Scalable High-Quality Data Synthesis</h1>
+            <div class="authors">
+                <a href="https://zhaoshitian.github.io/">Shitian Zhao*</a>,
+                <a href="https://jerrywu-code.github.io/">Qilong Wu*</a>,
+                <a href="https://openreview.net/profile?id=~Xinyue_Li13">Xinyue Li*</a>,
+                <a href="https://bobrown.github.io/boZhang.github.io/">Bo Zhang</a>,
+                <a>Ming Li</a>,
+                <a>Qi Qin</a>,
+                <a>Dongyang Liu</a>,
+                <a>Kaipeng Zhang</a>,
+                <a>Hongsheng Li</a>,
+                <a>Yu Qiao</a>,
+                <a>Peng Gao</a>,
+                <a>Bin Fu†</a>,
+                <a href="https://paper99.github.io/">Zhen Li†</a>,
+        </div>
+        <div class="institution">
+            Shanghai AI Laboratory, The Chinese University of Hong Kong    *Equal Contribution, †Corresponding Author
+        </div>
+            <div class="header-buttons">
+                <a href="#abstract" class="btn"><i class="fas fa-book"></i> Read Paper</a>
+                <a href="https://github.com/zhaoshitian/LeX-Art" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub</a>
+                <a href="https://huggingface.co/X-ART" class="btn btn-secondary"><i class="fab fa-hugs"></i> HuggingFace</a>
+                <a href="https://huggingface.co/X-ART" class="btn btn-secondary"><i class="fas fa-play-circle"></i> Demo</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Modified Teaser Section -->
+        <section id="teaser">
+            <h2>Teaser</h2>
+            <div class="teaser-grid">
+                <!-- Row 1 -->
+                <div class="teaser-item">
+                    <img src="teasers/multi_words_1.png" alt="Sample 1">
+                    <p class="teaser-caption">A set of four colorful promotional stickers with a summer theme, featuring text and simple graphic elements, with the text on it: "hot", "summer", "offer", "sale", "ecology", "product", "new", "discount", "limited", "deal".</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/multi_words_2.png" alt="Sample 2">
+                    <p class="teaser-caption">A close-up of colorful, intricately decorated cookies arranged neatly on a wooden table, with the text on it: "Sweet", "Delight", "Joy", "Celebrate", "Tasty", "Treats", "Artisan", "Festive", "Beautiful", "Homemade".</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/multi_words_3.jpg" alt="Sample 3">
+                    <p class="teaser-caption">A picture of a colorful collection of stickers spread out on a wooden table, with the text on it: "Vibrant", "Express", "Playful", "Create", "Sticker", "Joyful", "Artistic", "Fun".</p>
+                </div>
+                
+                <!-- Row 2 -->
+                <div class="teaser-item">
+                    <img src="teasers/multi_words_4.jpg" alt="Sample 4">
+                    <p class="teaser-caption">A picture of a neatly arranged stack of wooden blocks with colorful designs, with the text on it: "Learn", "Play", "Grow", "Build", "Create", "Explore", "Think", "Solve", "Imagine".</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/multi_words_5.jpg" alt="Sample 5">
+                    <p class="teaser-caption">A picture of a woman seated gracefully against a vibrant and abstract colorful background, with the text on it: "Elegance", "Vibrance", "Harmony", "Beauty", "Expression", "Colorful", "Dreamy", "Poise", "Serenity".</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/layout_1.jpg" alt="Sample 6">
+                    <p class="teaser-caption">A picture of a vibrant puzzle-themed book cover with intriguing designs, with the text on it: "Brain", "Teasers", "Challenge", "Accepted", "Mind", "Games", "Logic", "Quest", "Puzzler's".</p>
+                </div>
+                
+                <!-- Row 3 -->
+                <div class="teaser-item">
+                    <img src="teasers/layout_2.jpg" alt="Sample 7">
+                    <p class="teaser-caption">A picture of a vibrant retro rock-themed gift card with bold and colorful design elements, with the text on it: "Steel", "Panther", "Rockdown", "In", "The", "Lockdown", "Gift".</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/layout_3.jpg" alt="Sample 8">
+                    <p class="teaser-caption">A picture of a speech bubble filled with various vegetables, with the text on it: "Vegetable", "Gardening", "with", "MIKE", "THE", "GARDENER".</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/layout_4.jpg" alt="Sample 9">
+                    <p class="teaser-caption">A picture of a band performing on a stage, with the text on it: "SIMPLY", "Bullet", "Proof", "Nothing", "SAUCER".</p>
+                </div>
+                
+                <!-- Row 4 -->
+                <div class="teaser-item">
+                    <img src="teasers/layout_5.jpg" alt="Sample 10">
+                    <p class="teaser-caption">A picture of a video game trailer scene set in a futuristic theme, with the text on it: "BID", "BEYOND", "EARTH", "ANNOUNCEMENT", "Trailer".</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/text_attribute_1.jpg" alt="Sample 11">
+                    <p class="teaser-caption">A picture of a black and white magnet, with the text on it: "IMAGE" in yellow, "HERE" in purple.</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/text_attribute_2.jpg" alt="Sample 12">
+                    <p class="teaser-caption">A picture of a black top hat with festive decorations, with the text on it: "HAPPY" in green, "NEW" in purple, "YEAR" in yellow.</p>
+                </div>
+                
+                <!-- Row 5 -->
+                <div class="teaser-item">
+                    <img src="teasers/text_attribute_3.jpg" alt="Sample 13">
+                    <p class="teaser-caption">A picture of a blue-iced cake topped with candles, with the text on it: "Birthday" in yellow, "Billy" in yellow.</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/text_attribute_4.jpg" alt="Sample 14">
+                    <p class="teaser-caption">A picture of a person holding a transparent tube filled with colorful gems, with the text on it: "Hot" in the cursive font style; "Rod" in the cursive font style; "Clear", which are 3D letters.</p>
+                </div>
+                <div class="teaser-item">
+                    <img src="teasers/text_attribute_5.jpg" alt="Sample 15">
+                    <p class="teaser-caption">A picture of a festive paper cup with a celebratory design, with the text on it: "HAPPY", which are 3D letters; "BIRTH" in the cursive font style; "DAY" in the rounded font style.</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 20px; font-style: italic; color: #6b7280;">
+                <em>LeX-FLUX and LeX-Lumina have shown advanced text rendering capability in terms of multiple words, complex layout, and text attributes controllability.</em>
+            </p>
+        </section>
+
+        <section id="abstract" class="abstract">
+            <h3>Abstract</h3>
+            <p>
+                We introduce LeX-Art, a comprehensive suite for high-quality text-image synthesis that systematically bridges the gap between prompt expressiveness and text rendering fidelity. Our approach follows a data-centric paradigm, constructing a high-quality data synthesis pipeline based on Deepseek-R1 to curate LeX-10K, a dataset of 10K high-resolution, aesthetically refined 1024$\times$1024 images. Beyond dataset construction, we develop LeX-Enhancer, a robust prompt enrichment model, and train two text-to-image models, LeX-FLUX and LeX-Lumina, achieving state-of-the-art text rendering performance. To systematically evaluate visual text generation, we introduce LeX-Bench, a benchmark that assesses fidelity, aesthetics, and alignment, complemented by Pairwise Normalized Edit Distance (PNED), a novel metric for robust text accuracy evaluation. Experiments demonstrate significant improvements, with LeX-Lumina achieving a 79.81% PNED gain on CreateBench, and LeX-FLUX outperforming baselines in color (+3.18%), positional (+4.45%), and font accuracy (+3.81%). Our codes, models, datasets, and demo are publicly available.
+            </p>
+        </section>
+
+        <div class="image-container">
+            <img src="framework_web.png" alt="LeX-Art Framework">
+            <p><em>Illustration of LeX-Art Suite.</em></p>
+        </div>
+
+        <!-- Rest of the HTML remains the same -->
+        <section id="features">
+            <h2>Key Features</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h4><i class="fas fa-database"></i> LeX-10K Dataset</h4>
+                    <p>10K high-quality, high-resolution text-image pairs curated with advanced filtering techniques</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i class="fas fa-magic"></i> LeX-Enhancer</h4>
+                    <p>A prompt enhancement model based on DeepSeek-R1 that enriches simple captions with detailed visual attributes</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i class="fas fa-image"></i> LeX-FLUX & LeX-Lumina</h4>
+                    <p>Two text-to-image models optimized for text rendering with different size-performance tradeoffs</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i class="fas fa-chart-bar"></i> LeX-Bench</h4>
+                    <p>A comprehensive benchmark for evaluating visual text generation across multiple dimensions</p>
+                </div>
+                <div class="feature-card">
+                    <h4><i class="fas fa-ruler"></i> PNED Metric</h4>
+                    <p>A new metric for evaluating text accuracy that handles sequence variations and unmatched elements</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="methodology">
+            <h2>Methodology</h2>
+
+            <div class="image-container">
+                <img src="data_pipeline.png" alt="Data Pipeline">
+                <p><em>The framework of data construction pipeline. The red words in the R1 enhanced prompt are not rendered in the generated image, and it is fixed after the post alignment.</em></p>
+            </div>
+
+            <h3>DeepSeek-R1 as a Prompt Enhancer</h3>
+            <p>
+                In text-to-image generation, enriching prompts with fine-grained visual details has been shown to significantly improve output quality. We leverage DeepSeek-R1's reasoning capabilities to transform simple captions into detailed descriptions with rich visual attributes including font styles, color schemes, and spatial layouts.
+            </p>
+
+            <div class="image-container">
+                <img src="r1.png" alt="R1 Enhancement">
+                <p><em>Images generated by FLUX.1 [dev] based on different prompts. DeepSeek-R1 provides more detailed and structured descriptions compared to other LLMs, resulting in higher quality text rendering.</em></p>
+            </div>
+
+            <h3>Data Quality Comparison</h3>
+            <p>
+                Our LeX-10K dataset achieves significantly higher image quality and aesthetic scores compared to existing text image datasets, highlighting its advantage in text rendering tasks.
+            </p>
+
+            <div class="lexart-image-container">
+                <img src="data.png" alt="Data Quality">
+                <p><em>Image quality score and image aesthetics score distribution of AnyText dataset and LeX-10K.</em></p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="lexbench">
+            <h2>LeX-Bench</h2>
+            <div class="image-container">
+                <img src="bench.png" alt="LeX-Bench">
+                <p><em>Overview of LeX-Bench. Prompts in LeX-Bench are split into three levels: 630 Easy-Level (2–4 words), 480 Medium Level (5–9 words), and 200 Hard-Level (10–14 words). Prompts of the easy level also contain text attributes: color, font, position.</em></p>
+            </div>
+        </section>
+            
+
+        <div class="section-divider"></div>
+
+        <section id="results">
+            <h2>Experimental Results</h2>
+
+            <h3>Model Performance Comparison</h3>
+            <p>
+                We evaluate LeX-FLUX and LeX-Lumina on traditional benchmarks and our proposed LeX-Bench. The results demonstrate significant improvements in text rendering accuracy, aesthetics, and text attribute controllability.
+            </p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>LeX-Enhancer</th>
+                            <th>PNED ↓</th>
+                            <th>Recall ↑</th>
+                            <th>Aesthetic ↑</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>FLUX.1 [dev]</td>
+                            <td>✗</td>
+                            <td>2.23</td>
+                            <td>0.64</td>
+                            <td>3.38</td>
+                        </tr>
+                        <tr>
+                            <td>FLUX.1 [dev]</td>
+                            <td>✓</td>
+                            <td>1.50</td>
+                            <td>0.77</td>
+                            <td>3.43</td>
+                        </tr>
+                        <tr>
+                            <td>LeX-FLUX</td>
+                            <td>✗</td>
+                            <td>2.30</td>
+                            <td>0.64</td>
+                            <td>3.46</td>
+                        </tr>
+                        <tr>
+                            <td>LeX-FLUX</td>
+                            <td>✓</td>
+                            <td>1.52</td>
+                            <td>0.79</td>
+                            <td>3.47</td>
+                        </tr>
+                        <tr>
+                            <td>Lumina-Image-2.0</td>
+                            <td>✗</td>
+                            <td>2.39</td>
+                            <td>0.51</td>
+                            <td>2.86</td>
+                        </tr>
+                        <tr>
+                            <td>Lumina-Image-2.0</td>
+                            <td>✓</td>
+                            <td>1.85</td>
+                            <td>0.69</td>
+                            <td>3.29</td>
+                        </tr>
+                        <tr>
+                            <td>LeX-Lumina</td>
+                            <td>✗</td>
+                            <td>2.41</td>
+                            <td>0.53</td>
+                            <td>3.41</td>
+                        </tr>
+                        <tr>
+                            <td>LeX-Lumina</td>
+                            <td>✓</td>
+                            <td><span class="highlight">1.44</span></td>
+                            <td><span class="highlight">0.73</span></td>
+                            <td><span class="highlight">3.50</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Comparison with Glyph-Controlled Models</h3>
+            <p>
+                We compare our models with state-of-the-art glyph-conditioned methods on the AnyText-Benchmark. Despite not using explicit glyph information, our models achieve competitive performance in text rendering accuracy and superior prompt-image alignment.
+            </p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Methods</th>
+                            <th>LeX-Enhancer</th>
+                            <th>Acc ↑</th>
+                            <th>CLIPScore ↑</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ControlNet</td>
+                            <td>-</td>
+                            <td>0.5837</td>
+                            <td>0.8448</td>
+                        </tr>
+                        <tr>
+                            <td>TextDiffuser</td>
+                            <td>-</td>
+                            <td>0.5921</td>
+                            <td>0.8685</td>
+                        </tr>
+                        <tr>
+                            <td>GlyphControl</td>
+                            <td>-</td>
+                            <td>0.3710</td>
+                            <td>0.8847</td>
+                        </tr>
+                        <tr>
+                            <td>AnyText</td>
+                            <td>-</td>
+                            <td>0.7239</td>
+                            <td>0.8841</td>
+                        </tr>
+                        <tr>
+                            <td>LeX-Lumina</td>
+                            <td>✗</td>
+                            <td>0.3840</td>
+                            <td>0.8100</td>
+                        </tr>
+                        <tr>
+                            <td>LeX-Lumina</td>
+                            <td>✓</td>
+                            <td>0.6220</td>
+                            <td>0.8832</td>
+                        </tr>
+                        <tr>
+                            <td>LeX-FLUX</td>
+                            <td>✗</td>
+                            <td>0.5220</td>
+                            <td>0.8754</td>
+                        </tr>
+                        <tr>
+                            <td>LeX-FLUX</td>
+                            <td>✓</td>
+                            <td><span class="highlight">0.7110</span></td>
+                            <td><span class="highlight">0.8918</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Human Preference Evaluation</h3>
+            <p>
+                Human evaluators consistently preferred images generated by LeX-Lumina over Lumina-Image 2.0 in terms of text accuracy, text recall rate, and aesthetic quality.
+            </p>
+
+            <div class="image-container">
+                <img src="win_tie_lose.png" alt="Human Preference">
+                <p><em>Human preference result on text accuracy, text recall rate and aesthetics for LeX-Lumina. For ease of illustration, we visualize the proportion of votes where LeX-Lumina wins, loses and ties with Lumina-Image 2.0.</em></p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="visual-comparisons">
+            <h2>Visual Comparisons</h2>
+
+            <h3>LeX-Lumina vs. Lumina-Image 2.0</h3>
+            <div class="image-container">
+                <img src="comp_lumina.png" alt="Quality Comparison">
+                <p><em>Qualitative comparison between Lumina-Image 2.0 and LeX-Lumina. The first column shows Lumina-Image-2.0 without LeX-Enhancer using Simple Caption; the second column shows the trained LeX-Lumina without LeX-Enhancer using Simple Caption; the third column shows Lumina-Image-2.0 with LeX-Enhancer enabled; and the fourth column shows LeX-Lumina with LeX-Enhancer enabled. We observe that (1) LeX-Lumina exhibits a better text rendering capability in terms of text fidelity and aesthetics; (2) LeX-Enhancer exhibits a strong capability for enhancing simple prompts.</em></p>
+            </div>
+
+            <h3>LeX-FLUX vs. FLUX.1 [dev]</h3>
+            <div class="image-container">
+                <img src="comp_flux.png" alt="FLUX Comparison">
+                <p><em>Qualitative comparison between FLUX.1 [dev] and LeX-FLUX. The first column shows FLUX.1 [dev] without LeX-Enhancer using Simple Caption; the second column shows the trained LeX-FLUX without LeX-Enhancer using Simple Caption; the third column shows FLUX.1 [dev] with LeX-Enhancer enabled; and the fourth column shows LeX-FLUX with LeX-Enhancer enabled. We observe that (1) LeX-FLUX exhibits a better text rendering capability in terms of text fidelity and text attributes controllability; (2) LeX-Enhancer exhibits a strong capability for enhancing simple prompts.</em></p>
+            </div>
+
+            <h3>Comparison with Glyph-Controlled Models</h3>
+            <div class="image-container">
+                <img src="comp_other.png" alt="Comparison with Glyph-controlled Models">
+                <p><em>Qualitative comparison between LeX-Lumina, LeX-FLUX and glyph-conditioned models. We compare our models with AnyText and TextDiffuser for five different prompts. We observe that our models generally achieve high fidelity, better text attribute controllability and higher aesthetics.</em></p>
+            </div>
+
+            <h3>More Generated Samples</h3>
+            <div class="image-container">
+                <img src="showcase.png" alt="More Samples">
+                <p><em>Showcase of text rendering results from LeX-Lumina (first two rows) and LeX-FLUX (last two rows) on text-to-image tasks. The examples demonstrate the models' ability to generate clear, well-aligned, and aesthetically pleasing text within images.</em></p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section id="conclusion">
+            <h2>Conclusion</h2>
+            <p>
+                In this work, we enhance the text rendering capability of text-to-image foundation models from a data-centric perspective. Specifically, we leverage DeepSeek-R1 to synthesize a set of domain-specific, highly detailed image descriptions. Subsequently, we design a series of post-processing modules, resulting in LeX-10K, a synthetic dataset comprising 10,000 high-quality text-image samples. Using the prompt-enhancing data generated by DeepSeek-R1, we fine-tune a locally deployable prompt enhancer, LeX-Enhancer. Furthermore, leveraging LeX-10K, we fine-tune two existing models, FLUX.1 [dev] and Lumina-Image 2.0, to obtain LeX-FLUX and LeX-Lumina, respectively.
+                <br>
+                To rigorously evaluate text rendering performance, we construct a comprehensive benchmark, LeX-Bench, which assesses text rendering accuracy, aesthetics, and controllability over text attributes. In addition, we introduce a flexible and general metric, Pairwise Normalized Edit Distance (PNED), specifically designed for evaluating text rendering precision. Extensive experiments conducted on LeX-Bench demonstrate that LeX-FLUX and LeX-Lumina achieve significant improvements across all aspects of text rendering.
+        </section>
+
+        <section id="citation">
+            <h2>Citation</h2>
+            <div class="code-block">
+                @article{zhao2025lexart,<br>
+                  title={LeX-Art: Rethinking Text Generation via Scalable High-Quality Data Synthesis},<br>
+                  author={Zhao, Shitian and Wu, Qilong and Li, Xinyue and Zhang, Bo and Li, Ming and Qin, Qi and Liu, Dongyang and Zhang, Kaipeng and Li, Hongsheng and Qiao, Yu and Gao, Peng and Fu, Bin and Li, Zhen},<br>
+                  journal={arXiv preprint},<br>
+                  year={2025}<br>
+                }
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Shanghai AI Laboratory. All Rights Reserved.</p>
+            <div style="margin-top: 20px;">
+                <a href="https://github.com/zhaoshitian/LeX-Art" style="color: white; margin: 0 10px;"><i class="fab fa-github fa-lg"></i></a>
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fab fa-twitter fa-lg"></i></a>
+                <a href="#" style="color: white; margin: 0 10px;"><i class="fas fa-envelope fa-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
