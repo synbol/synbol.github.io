@@ -606,13 +606,13 @@
         <section id="abstract" class="abstract">
             <h3>Abstract</h3>
             <p>
-                We introduce LeX-Art, a comprehensive suite for high-quality text-image synthesis that systematically bridges the gap between prompt expressiveness and text rendering fidelity. Our approach follows a data-centric paradigm, constructing a high-quality data synthesis pipeline based on Deepseek-R1 to curate LeX-10K, a dataset of 10K high-resolution, aesthetically refined 1024$\times$1024 images. Beyond dataset construction, we develop LeX-Enhancer, a robust prompt enrichment model, and train two text-to-image models, LeX-FLUX and LeX-Lumina, achieving state-of-the-art text rendering performance. To systematically evaluate visual text generation, we introduce LeX-Bench, a benchmark that assesses fidelity, aesthetics, and alignment, complemented by Pairwise Normalized Edit Distance (PNED), a novel metric for robust text accuracy evaluation. Experiments demonstrate significant improvements, with LeX-Lumina achieving a 79.81% PNED gain on CreateBench, and LeX-FLUX outperforming baselines in color (+3.18%), positional (+4.45%), and font accuracy (+3.81%). Our codes, models, datasets, and demo are publicly available.
+                We introduce Lumina-DiMOO ........
             </p>
         </section>
 
         <div class="image-container">
-            <img src="framework_web.png" alt="LeX-Art Framework">
-            <p><em>Illustration of LeX-Art Suite.</em></p>
+            <img src="overall.png" alt="Lumina-DiMOO Overall">
+            <p><em>Illustration of Lumina-DiMOO.</em></p>
         </div>
 
         <!-- Rest of the HTML remains the same -->
@@ -622,22 +622,6 @@
                 <div class="feature-card">
                     <h4><i class="fas fa-database"></i> LeX-10K Dataset</h4>
                     <p>10K high-quality, high-resolution text-image pairs curated with advanced filtering techniques</p>
-                </div>
-                <div class="feature-card">
-                    <h4><i class="fas fa-magic"></i> LeX-Enhancer</h4>
-                    <p>A prompt enhancement model based on DeepSeek-R1 that enriches simple captions with detailed visual attributes</p>
-                </div>
-                <div class="feature-card">
-                    <h4><i class="fas fa-image"></i> LeX-FLUX & LeX-Lumina</h4>
-                    <p>Two text-to-image models optimized for text rendering with different size-performance tradeoffs</p>
-                </div>
-                <div class="feature-card">
-                    <h4><i class="fas fa-chart-bar"></i> LeX-Bench</h4>
-                    <p>A comprehensive benchmark for evaluating visual text generation across multiple dimensions</p>
-                </div>
-                <div class="feature-card">
-                    <h4><i class="fas fa-ruler"></i> PNED Metric</h4>
-                    <p>A new metric for evaluating text accuracy that handles sequence variations and unmatched elements</p>
                 </div>
             </div>
         </section>
