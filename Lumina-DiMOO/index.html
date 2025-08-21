@@ -689,99 +689,22 @@
         <section id="results">
             <h2>Experimental Results</h2>
 
-            <h3>Model Performance Comparison</h3>
-            <p>
-                We evaluate LeX-FLUX and LeX-Lumina on traditional benchmarks and our proposed LeX-Bench. The results demonstrate significant improvements in text rendering accuracy, aesthetics, and text attribute controllability.
-            </p>
-
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Model</th>
-                            <th>LeX-Enhancer</th>
-                            <th>PNED ↓</th>
-                            <th>Recall ↑</th>
-                            <th>Aesthetic ↑</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>FLUX.1 [dev]</td>
-                            <td>✗</td>
-                            <td>2.23</td>
-                            <td>0.64</td>
-                            <td>3.38</td>
-                        </tr>
-                        <tr>
-                            <td>FLUX.1 [dev]</td>
-                            <td>✓</td>
-                            <td>1.50</td>
-                            <td>0.77</td>
-                            <td>3.43</td>
-                        </tr>
-                        <tr>
-                            <td>LeX-FLUX</td>
-                            <td>✗</td>
-                            <td>2.30</td>
-                            <td>0.64</td>
-                            <td>3.46</td>
-                        </tr>
-                        <tr>
-                            <td>LeX-FLUX</td>
-                            <td>✓</td>
-                            <td>1.52</td>
-                            <td>0.79</td>
-                            <td>3.47</td>
-                        </tr>
-                        <tr>
-                            <td>Lumina-Image-2.0</td>
-                            <td>✗</td>
-                            <td>2.39</td>
-                            <td>0.51</td>
-                            <td>2.86</td>
-                        </tr>
-                        <tr>
-                            <td>Lumina-Image-2.0</td>
-                            <td>✓</td>
-                            <td>1.85</td>
-                            <td>0.69</td>
-                            <td>3.29</td>
-                        </tr>
-                        <tr>
-                            <td>LeX-Lumina</td>
-                            <td>✗</td>
-                            <td>2.41</td>
-                            <td>0.53</td>
-                            <td>3.41</td>
-                        </tr>
-                        <tr>
-                            <td>LeX-Lumina</td>
-                            <td>✓</td>
-                            <td><span class="highlight">1.44</span></td>
-                            <td><span class="highlight">0.73</span></td>
-                            <td><span class="highlight">3.50</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3>DPG Benchmark Result</h3>
+            <h3>GenEval Benchmark</h3>
             <p>
                 We compare our models with state-of-the-art glyph-conditioned methods on the AnyText-Benchmark. Despite not using explicit glyph information, our models achieve competitive performance in text rendering accuracy and superior prompt-image alignment.
             </p>
-
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>Methods</th>
                             <th>#Params</th>
-                            <th>Global</th>
-                            <th>Entity</th>
-                            <th>Attribute</th>
-                            <th>Relation</th>
-                            <th>Other</th>
+                            <th>Single Object</th>
+                            <th>Two Objects</th>
+                            <th>Counting</th>
+                            <th>Colors</th>
+                            <th>Position</th>
+                            <th>Attribution</th>
                             <th>Overall ↑</th>
                         </tr>        
                     </thead>
@@ -819,18 +742,6 @@
                             <td>0.60</td>
                             <td>0.74</td>
                         </tr>
-                        <tr>
-                            <td>DALL-E 3</td>
-                            <td>-</td>
-                            <td>0.96</td>
-                            <td>0.87</td>
-                            <td>0.47</td>
-                            <td>0.83</td>
-                            <td>0.43</td>
-                            <td>0.45</td>
-                            <td>0.67</td>
-                        </tr>
-
                         <tr>
                             <td>DALL-E 3</td>
                             <td>-</td>
@@ -884,6 +795,110 @@
                     </tbody>
                 </table>
             </div>
+
+            <h3>DPG Benchmark</h3>
+            <p>
+                We compare our models with state-of-the-art glyph-conditioned methods on the AnyText-Benchmark. Despite not using explicit glyph information, our models achieve competitive performance in text rendering accuracy and superior prompt-image alignment.
+            </p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                                 Overall↑
+                            <th>Methods</th>
+                            <th>#Params</th>
+                            <th>Global</th>
+                            <th>Entity</th>
+                            <th>Attribute</th>
+                            <th>Relation</th>
+                            <th>Other</th>
+                            <th>Overall ↑</th>
+                        </tr>        
+                    </thead>
+                    <tbody>
+                        <tr>      
+                            <td>OmniGen</td>
+                            <td>3.8B</td>
+                            <td>87.90</td>
+                            <td>88.97</td>
+                            <td>88.47</td>
+                            <td>87.95</td>
+                            <td>83.56</td>
+                            <td>81.16</td>
+                        </tr>
+                        -    - 
+                        <tr>
+                            <td>Lumina-mGPT 2.0</td>
+                            <td>7B</td>
+                            <td>-</td>
+                            <td>88.94</td>
+                            <td>88.08</td>
+                            <td>91.70</td>
+                            <td>-</td>
+                            <td>84.30</td>
+                        </tr> 
+                        <tr>
+                            <td>SD3-Medium</td>
+                            <td>2B</td>
+                            <td>87.90</td>
+                            <td>91.01</td>
+                            <td>88.83</td>
+                            <td>80.70</td>
+                            <td>88.68</td>
+                            <td>84.08</td>
+                        </tr>
+                        <tr>
+                            <td>DALL-E 3</td>
+                            <td>-</td>
+                            <td>90.97</td>
+                            <td>89.61</td>
+                            <td>88.39</td>
+                            <td>90.58</td>
+                            <td>89.83</td>
+                            <td>83.50</td>
+                        </tr>
+                        1.3B - - - - - 
+                        <tr>
+                            <td>Show-o</td>
+                            <td>1.3B</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>67.48</td>
+                        </tr>       
+                        <tr>
+                            <td>Janus-Pro</td>
+                            <td>7B</td>
+                            <td>86.90</td>
+                            <td>88.90</td>
+                            <td>89.40</td>
+                            <td>89.32</td>
+                            <td>89.48</td>
+                            <td>84.19</td>
+                        </tr>
+                        <tr>
+                            <td>MMaDA</td>
+                            <td>8B</td>
+                            <td>77.81</td>
+                            <td>78.48</td>
+                            <td>81.74</td>
+                            <td>84.79</td>
+                            <td>63.2</td>
+                            <td>69.97</td>
+                        </tr>
+                        <tr>
+                            <td>Lumina-DiMOO</td>
+                            <td>8B</td>
+                            <td><span class="highlight">0.7110</span></td>
+                            <td><span class="highlight">0.8918</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            
 
             <h3>Human Preference Evaluation</h3>
             <p>
