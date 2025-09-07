@@ -38,501 +38,777 @@
   <script src="./assets/LuminaDiMOO/js/bulma-carousel.min.js"></script>
   <script src="./assets/LuminaDiMOO/js/bulma-slider.min.js"></script>
   <script src="./assets/LuminaDiMOO/js/index.js"></script>
-<!--     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina-DiMOO: A Unified Discrete Diffusion Model for Multi-Modal Generation and Understanding</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #3b82f6;
-            --secondary-color: #1d4ed8;
-            --accent-color: #60a5fa;
-            --text-color: #1f2937;
-            --light-bg: #f9fafb;
-            --border-color: #e5e7eb;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.7;
-            color: var(--text-color);
-            background-color: #ffffff;
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            position: relative;
-            overflow: hidden;
-            padding: 80px 0;
-            text-align: center;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow-lg);
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSIxMDAiPgo8cmVjdCB3aWR0aD0iNTYiIGhlaWdodD0iMTAwIiBmaWxsPSIjMWUzYThjIj48L3JlY3Q+CjxwYXRoIGQ9Ik0yOCA2NkwwIDUwTDAgMTZMMjggMEw1NiAxNkw1NiA1MEwyOCA2NkwyOCAxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+CjxwYXRoIGQ9Ik0yOCAwTDI4IDY2TDAgNTBMMCA1MEwyOCA2NkwyOCA2Nkw1NiA1MEw1NiA1MEwyOCA2NkwyOCA2NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzhhZmZmIiBzdHJva2Utd2lkdGg9IjEiPjwvcGF0aD4KPC9zdmc+') repeat;
-            opacity: 0.05;
-        }
-        
-        .header-content {
-            position: relative;
-            z-index: 2;
-        }
-        
-        header h1 {
-            font-size: 3.0rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            letter-spacing: -1px;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(to right, #ffffff, #bfdbfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
-        
-        header h2 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            max-width: 800px;
-            margin: 0 auto;
-            color: rgba(255, 255, 255, 0.9);
-            border: none;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        
-        section {
-            margin: 60px 0;
-        }
-        
-        h2 {
-            font-size: 2.2rem;
-            color: var(--secondary-color);
-            margin-bottom: 30px;
-            position: relative;
-            padding-bottom: 15px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 70px;
-            height: 4px;
-            background-color: var(--accent-color);
-            border-radius: 2px;
-        }
-        
-        h3 {
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin: 30px 0 20px;
-            font-weight: 600;
-        }
-        
-        p {
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumina-DiMOO: A Unified Discrete Diffusion Model for Multi-Modal Generation and Understanding</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+      :root {
+          --primary-color: #3b82f6;
+          --secondary-color: #1d4ed8;
+          --accent-color: #60a5fa;
+          --text-color: #1f2937;
+          --light-bg: #f9fafb;
+          --border-color: #e5e7eb;
+          --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+      
+      body {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+          line-height: 1.7;
+          color: var(--text-color);
+          background-color: #ffffff;
+          max-width: 100%;
+          overflow-x: hidden;
+      }
+      
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+      }
+      
+      header {
+          background: linear-gradient(135deg, #3b82f6, #2563eb);
+          position: relative;
+          overflow: hidden;
+          padding: 80px 0;
+          text-align: center;
+          margin-bottom: 40px;
+          box-shadow: var(--shadow-lg);
+      }
+      
+      header::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSIxMDAiPgo8cmVjdCB3aWR0aD0iNTYiIGhlaWdodD0iMTAwIiBmaWxsPSIjMWUzYThjIj48L3JlY3Q+CjxwYXRoIGQ9Ik0yOCA2NkwwIDUwTDAgMTZMMjggMEw1NiAxNkw1NiA1MEwyOCA2NkwyOCAxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSIyIj48L3BhdGg+CjxwYXRoIGQ9Ik0yOCAwTDI4IDY2TDAgNTBMMCA1MEwyOCA2NkwyOCA2Nkw1NiA1MEw1NiA1MEwyOCA2NkwyOCA2NiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzhhZmZmIiBzdHJva2Utd2lkdGg9IjEiPjwvcGF0aD4KPC9zdmc+') repeat;
+          opacity: 0.05;
+      }
+      
+      .header-content {
+          position: relative;
+          z-index: 2;
+      }
+      
+      header h1 {
+          font-size: 3.0rem;
+          font-weight: 800;
+          margin-bottom: 10px;
+          letter-spacing: -1px;
+          color: white;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          background: linear-gradient(to right, #ffffff, #bfdbfe);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          display: inline-block;
+      }
+      
+      header h2 {
+          font-size: 1.5rem;
+          font-weight: 400;
+          max-width: 800px;
+          margin: 0 auto;
+          color: rgba(255, 255, 255, 0.9);
+          border: none;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      
+      section {
+          margin: 60px 0;
+      }
+      
+      h2 {
+          font-size: 2.2rem;
+          color: var(--secondary-color);
+          margin-bottom: 30px;
+          position: relative;
+          padding-bottom: 15px;
+          font-weight: 700;
+          letter-spacing: -0.5px;
+      }
+      
+      h2::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 70px;
+          height: 4px;
+          background-color: var(--accent-color);
+          border-radius: 2px;
+      }
+      
+      h3 {
+          font-size: 1.8rem;
+          color: var(--primary-color);
+          margin: 30px 0 20px;
+          font-weight: 600;
+      }
+      
+      p {
+          margin-bottom: 20px;
+          font-size: 1.05rem;
+      }
 
-        .authors {
-            font-size: 1.1em;
-            color: white;
-            margin-bottom: 20px;
-        }
+      .authors {
+          font-size: 1.1em;
+          color: white;
+          margin-bottom: 20px;
+      }
 
-        .institution {
-            color: white;
-            font-style: italic;
-        }
-        
-        .image-container {
-            text-align: center;
-            margin: 7px 0;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-        
-        .image-container:hover {
-            transform: translateY(-5px);
-        }
-        
-        .image-container img {
-            max-width: 86%;
-            border-radius: 12px;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.3s ease;
-        }
-        
-        .image-container:hover img {
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .image-container p {
-            font-style: italic;
-            margin-top: 15px;
-            color: #6b7280;
-            max-width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 0.95rem;
-        }
+      .institution {
+          color: white;
+          font-style: italic;
+      }
+      
+      .image-container {
+          text-align: center;
+          margin: 7px 0;
+          position: relative;
+          transition: transform 0.3s ease;
+      }
+      
+      .image-container:hover {
+          transform: translateY(-5px);
+      }
+      
+      .image-container img {
+          max-width: 86%;
+          border-radius: 12px;
+          box-shadow: var(--shadow-lg);
+          transition: all 0.3s ease;
+      }
+      
+      .image-container:hover img {
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+      
+      .image-container p {
+          font-style: italic;
+          margin-top: 15px;
+          color: #6b7280;
+          max-width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+          font-size: 0.95rem;
+      }
 
-        .lexart-image-container {
-            text-align: center;
-            margin: 40px 0;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
-        
-        .lexart-image-container:hover {
-            transform: translateY(-5px);
-        }
-        
-        .lexart-image-container img {
-            max-width: 40%;
-            border-radius: 12px;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.3s ease;
-        }
-        
-        .lexart-image-container:hover img {
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-        
-        .lexart-image-container p {
-            font-style: italic;
-            margin-top: 15px;
-            color: #6b7280;
-            max-width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 0.95rem;
-        }
-        
-        .abstract {
-            background-color: var(--light-bg);
-            padding: 40px;
-            border-radius: 16px;
-            margin: 40px 0;
-            box-shadow: var(--shadow-sm);
-            border-left: 5px solid var(--accent-color);
-        }
-        
-        .abstract h3 {
-            margin-top: 0;
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-        }
-        
-        .abstract h3::before {
-            content: '\f02d';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            margin-right: 10px;
-            color: var(--accent-color);
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-        
-        .feature-card {
-            background-color: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: var(--shadow-md);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .feature-card h4 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-        }
-        
-        .feature-card h4 i {
-            margin-right: 10px;
-            color: var(--accent-color);
-        }
-        
-        .feature-card p {
-            color: #4b5563;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            margin: 30px 0;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: center;
-            background-color: white;
-        }
-        
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-        }
-        
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        tr:nth-child(even) {
-            background-color: var(--light-bg);
-        }
-        
-        tr:hover {
-            background-color: #eef2ff;
-        }
-        
-        .code-block {
-            background-color: #1e293b;
-            color: #e2e8f0;
-            padding: 25px;
-            border-radius: 12px;
-            font-family: 'Fira Code', monospace;
-            overflow-x: auto;
-            margin: 30px 0;
-            box-shadow: var(--shadow-md);
-            line-height: 1.6;
-        }
-        
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
-            margin: 40px 0;
-        }
-        
-        .team-member {
-            background-color: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s ease;
-        }
-        
-        .team-member:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .team-member h4 {
-            color: var(--secondary-color);
-            margin-bottom: 5px;
-        }
-        
-        .team-member p {
-            color: #6b7280;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-        
-        footer {
-            background-color: #1e293b;
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 80px;
-        }
-        
-        footer p {
-            margin: 0;
-            opacity: 0.8;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            margin: 10px;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .btn:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(5px);
-        }
-        
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-        }
-        
-        .header-buttons {
-            margin-top: 30px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .highlight {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        .section-divider {
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--accent-color), transparent);
-            margin: 80px 0;
-            opacity: 0.5;
-        }
+      .lexart-image-container {
+          text-align: center;
+          margin: 40px 0;
+          position: relative;
+          transition: transform 0.3s ease;
+      }
+      
+      .lexart-image-container:hover {
+          transform: translateY(-5px);
+      }
+      
+      .lexart-image-container img {
+          max-width: 40%;
+          border-radius: 12px;
+          box-shadow: var(--shadow-lg);
+          transition: all 0.3s ease;
+      }
+      
+      .lexart-image-container:hover img {
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      }
+      
+      .lexart-image-container p {
+          font-style: italic;
+          margin-top: 15px;
+          color: #6b7280;
+          max-width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+          font-size: 0.95rem;
+      }
+      
+      .abstract {
+          background-color: var(--light-bg);
+          padding: 40px;
+          border-radius: 16px;
+          margin: 40px 0;
+          box-shadow: var(--shadow-sm);
+          border-left: 5px solid var(--accent-color);
+      }
+      
+      .abstract h3 {
+          margin-top: 0;
+          color: var(--secondary-color);
+          display: flex;
+          align-items: center;
+      }
+      
+      .abstract h3::before {
+          content: '\f02d';
+          font-family: 'Font Awesome 6 Free';
+          font-weight: 900;
+          margin-right: 10px;
+          color: var(--accent-color);
+      }
+      
+      .features {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 30px;
+          margin: 40px 0;
+      }
+      
+      .feature-card {
+          background-color: white;
+          border-radius: 12px;
+          padding: 30px;
+          box-shadow: var(--shadow-md);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          border: 1px solid var(--border-color);
+      }
+      
+      .feature-card:hover {
+          transform: translateY(-5px);
+          box-shadow: var(--shadow-lg);
+      }
+      
+      .feature-card h4 {
+          font-size: 1.3rem;
+          margin-bottom: 15px;
+          color: var(--secondary-color);
+          display: flex;
+          align-items: center;
+      }
+      
+      .feature-card h4 i {
+          margin-right: 10px;
+          color: var(--accent-color);
+      }
+      
+      .feature-card p {
+          color: #4b5563;
+      }
+      
+      .table-container {
+          overflow-x: auto;
+          margin: 30px 0;
+          border-radius: 12px;
+          box-shadow: var(--shadow-md);
+      }
+      
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          text-align: center;
+          background-color: white;
+      }
+      
+      th {
+          background-color: var(--primary-color);
+          color: white;
+          padding: 15px;
+          font-weight: 600;
+          position: sticky;
+          top: 0;
+      }
+      
+      td {
+          padding: 12px 15px;
+          border-bottom: 1px solid var(--border-color);
+      }
+      
+      tr:nth-child(even) {
+          background-color: var(--light-bg);
+      }
+      
+      tr:hover {
+          background-color: #eef2ff;
+      }
+      
+      .code-block {
+          background-color: #1e293b;
+          color: #e2e8f0;
+          padding: 25px;
+          border-radius: 12px;
+          font-family: 'Fira Code', monospace;
+          overflow-x: auto;
+          margin: 30px 0;
+          box-shadow: var(--shadow-md);
+          line-height: 1.6;
+      }
+      
+      .team-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          gap: 25px;
+          margin: 40px 0;
+      }
+      
+      .team-member {
+          background-color: white;
+          border-radius: 12px;
+          padding: 20px;
+          box-shadow: var(--shadow-sm);
+          border: 1px solid var(--border-color);
+          transition: transform 0.3s ease;
+      }
+      
+      .team-member:hover {
+          transform: translateY(-5px);
+          box-shadow: var(--shadow-md);
+      }
+      
+      .team-member h4 {
+          color: var(--secondary-color);
+          margin-bottom: 5px;
+      }
+      
+      .team-member p {
+          color: #6b7280;
+          font-size: 0.9rem;
+          margin: 0;
+      }
+      
+      footer {
+          background-color: #1e293b;
+          color: white;
+          text-align: center;
+          padding: 40px 20px;
+          margin-top: 80px;
+      }
+      
+      footer p {
+          margin: 0;
+          opacity: 0.8;
+      }
+      
+      .btn {
+          display: inline-block;
+          background-color: var(--primary-color);
+          color: white;
+          padding: 12px 25px;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 600;
+          margin: 10px;
+          transition: all 0.3s ease;
+          box-shadow: var(--shadow-sm);
+      }
+      
+      .btn:hover {
+          background-color: var(--secondary-color);
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-md);
+      }
+      
+      .btn-secondary {
+          background-color: rgba(255, 255, 255, 0.15);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          backdrop-filter: blur(5px);
+      }
+      
+      .btn-secondary:hover {
+          background-color: rgba(255, 255, 255, 0.25);
+      }
+      
+      .header-buttons {
+          margin-top: 30px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+      }
+      
+      .highlight {
+          color: var(--primary-color);
+          font-weight: 600;
+      }
+      
+      .section-divider {
+          height: 2px;
+          background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+          margin: 80px 0;
+          opacity: 0.5;
+      }
 
-        /* New styles for teaser grid */
-        .teaser-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin: 40px 0;
-        }
+      /* New styles for teaser grid */
+      .teaser-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+          margin: 40px 0;
+      }
 
-        .teaser-item {
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
+      .teaser-item {
+          text-align: center;
+          transition: transform 0.3s ease;
+      }
 
-        .teaser-item:hover {
-            transform: translateY(-5px);
-        }
+      .teaser-item:hover {
+          transform: translateY(-5px);
+      }
 
-        .teaser-item img {
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-        }
+      .teaser-item img {
+          width: 100%;
+          border-radius: 8px;
+          box-shadow: var(--shadow-md);
+          transition: all 0.3s ease;
+      }
 
-        .teaser-item:hover img {
-            box-shadow: var(--shadow-lg);
-        }
+      .teaser-item:hover img {
+          box-shadow: var(--shadow-lg);
+      }
 
-        .teaser-caption {
-            font-style: italic;
-            margin-top: 10px;
-            color: #6b7280;
-            font-size: 0.85rem;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            header {
-                padding: 40px 0;
-            }
-            
-            header h1 {
-                font-size: 2.5rem;
-            }
-            
-            header h2 {
-                font-size: 1.2rem;
-            }
-            
-            h2 {
-                font-size: 1.8rem;
-            }
-            
-            h3 {
-                font-size: 1.5rem;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-            
-            .team-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-            
-            .header-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 80%;
-                text-align: center;
-                margin: 5px 0;
-            }
+      .teaser-caption {
+          font-style: italic;
+          margin-top: 10px;
+          color: #6b7280;
+          font-size: 0.85rem;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+          header {
+              padding: 40px 0;
+          }
+          
+          header h1 {
+              font-size: 2.5rem;
+          }
+          
+          header h2 {
+              font-size: 1.2rem;
+          }
+          
+          h2 {
+              font-size: 1.8rem;
+          }
+          
+          h3 {
+              font-size: 1.5rem;
+          }
+          
+          .features {
+              grid-template-columns: 1fr;
+          }
+          
+          .team-grid {
+              grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          }
+          
+          .header-buttons {
+              flex-direction: column;
+              align-items: center;
+          }
+          
+          .btn {
+              width: 80%;
+              text-align: center;
+              margin: 5px 0;
+          }
 
-            /* Responsive teaser grid */
-            .teaser-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+          /* Responsive teaser grid */
+          .teaser-grid {
+              grid-template-columns: repeat(2, 1fr);
+          }
+      }
 
-        @media (max-width: 480px) {
-            .teaser-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style> -->
+      @media (max-width: 480px) {
+          .teaser-grid {
+              grid-template-columns: 1fr;
+          }
+      }
+  </style>
 </head>
 <body>
-    <header>
+  <!-- Fullscreen Hero with Deep Transparent Gradient and Background Images -->
+  <section class="hero is-fullheight" style="position: relative; overflow: hidden;">
+    <!-- Background tile images from folder -->
+    <!-- 背景容器 -->
+    <div id="background-scroller" style="
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    opacity: 0.90;
+    pointer-events: none;
+    ">
+    </div>
+
+    <script>
+      // 假设你有图片名为 1.jpg 到 12.jpg（可按需调整）
+      const imageCount = 36;  // 假设目录下有12张图
+      const imagePath = 'assets/artimuse/images/artworks_demo/';
+      const rows = 4;  // 显示3行滚动图像
+      const imagesPerRow = Math.ceil(imageCount / rows);
+      const background = document.getElementById('background-scroller');
+
+      for (let r = 0; r < rows; r++) {
+        const row = document.createElement('div');
+        row.className = 'scroll-row';
+        row.style.top = `${(100 / rows) * r}%`;
+
+        // 原图像 + 复制一份，实现无缝滚动
+        for (let dup = 0; dup < 2; dup++) { // 重复两次
+          for (let i = 0; i < imagesPerRow; i++) {
+            const imgIndex = r * imagesPerRow + i;
+            const filename = `${(imgIndex % imageCount) + 1}.jpg`;
+            const img = document.createElement('img');
+            img.src = `${imagePath}${filename}`;
+            img.className = 'scroll-img';
+            row.appendChild(img);
+          }
+        }
+
+        background.appendChild(row);
+      }
+
+    </script>
+
+    <style>
+      .scroll-row {
+        position: absolute;
+        left: 0;
+        width: 200%;
+        /* 滚动区域更宽，包含两份图像 */
+        height: calc(25% - 10px);
+        /* 每行高度去除间距 */
+        display: flex;
+        align-items: center;
+        animation: scrollRow 40s linear infinite;
+        margin-bottom: 10px;
+        /* 与图像间距一致 */
+        box-sizing: border-box;
+      }
+
+      .scroll-row:nth-child(even) {
+        animation-direction: reverse;
+      }
+
+      .scroll-row:last-child {
+        margin-bottom: 0;
+        /* 去掉最后一行多余间距 */
+      }
+
+      .scroll-img {
+        width: 400px;
+        height: 320px;
+        object-fit: cover;
+        flex-shrink: 0;
+        margin-right: 10px;
+        opacity: 1.0;
+      }
+
+      @keyframes scrollRow {
+        0% {
+          transform: translateX(0);
+        }
+
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+    </style>
+
+
+
+    <!-- Overlay to darken the background -->
+    <div style="
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom right, rgba(10, 25, 80, 0.85), rgba(30, 30, 30, 0.9));
+    z-index: 1;">
+    </div>
+
+
+
+    <!-- Main content -->
+    <div class="hero-body" style="position: relative; z-index: 2;">
+      <div class="container has-text-centered">
+        <h1 class="title is-1 has-text-weight-bold" style="color: #f8f8f6; font-style: italic;">
+          <span style="color: #FF3E3E;">L</span><span style="color: #FF914D;">u</span><span
+            style="color: #FFC94D;">m</span><span style="color: #B6E24D;">i</span><span
+            style="color: #4DDC95;">n</span><span style="color: #4DB8FF;">a</span><span
+            style="color: #8564FF;">D</span><span style="color: #C74DFF;">i</span><span
+            style="color: #7654FF;">M</span><span style="color: #5432FF;">OO</span>
+        </h1>
+        <h1 class="title is-1 has-text-weight-bold" style="color: #f8f8f6; font-style: italic;">
+          An Open-Source Diffusion Large Language Model for Multi-Modal Generation and Understanding
+        </h1>
+        
+        <style>
+          .publication-authors {
+            color: #E0E0E0;
+            /* 默认文字颜色，改为非常浅的灰色，比纯白更柔和 */
+          }
+
+          .publication-authors sup {
+            color: #E0E0E0;
+            /* 上标颜色与默认文字保持一致 */
+          }
+
+          .publication-authors a {
+            color: #87CEEB;
+            /* 亮蓝色，比原先的 #4da6ff 更亮一些，与深色背景形成对比，类似标题的亮黄色文字效果 */
+            text-decoration: none;
+            /* 去掉下划线 */
+          }
+
+          .publication-authors a:hover {
+            color: #ADD8E6;
+            /* 悬停时颜色，比默认链接颜色更亮，提供视觉反馈 */
+          }
+        </style>
+
+        <!-- Author list -->
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">
+            <a href="" target="_blank">Yi Xin</a><sup>1,2,5,♣</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Qi Qin</a><sup>1,4,♣</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Siqi Luo</a><sup>1,3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Kaiwen Zhu</a><sup>1,3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Juncheng Yan</a><sup>1</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Jiayi Lei</a><sup>1,3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Yan Tai</a><sup>3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Yuewen Cao</a><sup>1</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Yuandong Pu</a><sup>1,3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Le Zhuo</a><sup>1,6</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Shenglong Ye</a><sup>1</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Ming Hu</a><sup>1</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Junjun He</a><sup>1</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Bo Zhang</a><sup>1</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Dengyang Jiang</a><sup>1</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Gen Luo</a><sup>1</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Chang Xu</a><sup>4</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Wenhai Wang</a><sup>1</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Hongsheng Li</a><sup>1,6</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Guangtao Zhai</a><sup>1,3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Tianfan Xue</a><sup>1,3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Guangtao Zhai</a><sup>1,3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Xiaohong Liu</a><sup>3,2,&#8224;</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Bin Fu</a><sup>1,&#8224;</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Yihao Liu</a><sup>1,&#8224;</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Yu Qiao</a><sup>1,&#8224;</sup>
+          </span>
+        </div>
+
+        <!-- Corresponding‑author note -->
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">(♣ Equal Contributions, &#8224; Corresponding Authors)</span>
+        </div>
+
+        <!-- Affiliations -->
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">
+            <sup>1</sup> Shanghai AI Laboratory&nbsp;&nbsp;
+            <sup>2</sup> Shanghai Innovation Institute&nbsp;&nbsp;
+            <sup>3</sup> Shanghai Jiao Tong University&nbsp;&nbsp;
+            <sup>4</sup> The University of Sydney&nbsp;&nbsp;
+            <sup>5</sup> Nanjing University&nbsp;&nbsp;<br>
+            <sup>6</sup> The Chinese University of Hong Kong&nbsp;&nbsp;
+          </span>
+        </div>
+
+
+        <!-- Buttons -->
+        <div class="buttons is-centered mt-5">
+          <span class="link-block">
+            <a href="" target="_blank"
+              class="external-link button is-normal is-rounded has-background-white has-text-black">
+              <span class="icon">
+                <i class="ai ai-arxiv"></i>
+              </span>
+              <span>Paper (Coming Soon.)</span>
+            </a>
+          </span>
+          <!-- Code Link. -->
+          <span class="link-block">
+            <a href="" target="_blank"
+              class="external-link button is-normal is-rounded has-background-white has-text-black">
+              <span class="icon">
+                <i class="fab fa-github"></i>
+              </span>
+              <span>Code</span>
+            </a>
+          </span>
+          <!-- Huggingface Demo Link. -->
+          <span class="link-block">
+            <a href="" target="_blank"
+              class="external-link button is-normal is-rounded has-background-white has-text-black">
+              <span class="icon">
+                <img src="assets/artimuse/hf-logo.svg" style="display:block;width:330px;height:240px" />
+              </span>
+              <span>Checkpoints</span>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+<!--     <header>
         <div class="container header-content">
             <h1>Lumina-DiMOO:</h1>
             <h1>A Unified Discrete Diffusion Model for Multi-Modal Generation and Understanding</h1>
@@ -558,7 +834,7 @@
                 <a href="https://huggingface.co/X-ART" class="btn btn-secondary"><i class="fab fa-hugs"></i> 🤗 HuggingFace (Model)</a>
             </div>
         </div>
-    </header>
+    </header> -->
 
     <div class="container">
         <section id="abstract" class="abstract">
