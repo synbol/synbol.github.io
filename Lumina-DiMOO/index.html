@@ -495,6 +495,14 @@
           font-size: 0.85rem;
       }
 
+      /* 行悬浮白底不变，字体加深 */
+          tbody tr:hover:not(.highlight-row) {
+            background-color: #ffffff !important;
+            color: #0d47a1 !important;
+            cursor: default;
+            transition: color 0.3s ease;
+          }
+
       /* 突出最后一行（我们的模型），始终生效 */
       tbody tr.highlight-row {
         background-color: #bbdefb !important;
