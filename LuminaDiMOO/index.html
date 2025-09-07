@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="description"
+    content="ArtiMuse: Fine-Grained Image Aesthetics Assessment with Joint Scoring and Expert-Level Understanding">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ArtiMuse: Fine-Grained Image Aesthetics Assessment with Joint Scoring and Expert-Level Understanding</title>
+
+  <!--   Global site tag (gtag.js) - Google Analytics-->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y5ZVQZ7NHC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-Y5ZVQZ7NHC');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+  <link rel="stylesheet" href="./assets/artimuse/css/bulma.min.css">
+  <link rel="stylesheet" href="./assets/artimuse/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./assets/artimuse/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./assets/artimuse/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./assets/artimuse/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./assets/artimuse/js/fontawesome.all.min.js"></script>
+  <script src="./assets/artimuse/js/bulma-carousel.min.js"></script>
+  <script src="./assets/artimuse/js/bulma-slider.min.js"></script>
+  <script src="./assets/artimuse/js/index.js"></script>
+</head>
+
+<body>
+
+
+
+
+  <!-- Fullscreen Hero with Deep Transparent Gradient and Background Images -->
+  <section class="hero is-fullheight" style="position: relative; overflow: hidden;">
+    <!-- Background tile images from folder -->
+    <!-- 背景容器 -->
+    <div id="background-scroller" style="
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    opacity: 0.90;
+    pointer-events: none;
+    ">
+    </div>
+
+    <script>
+      // 假设你有图片名为 1.jpg 到 12.jpg（可按需调整）
+      const imageCount = 36;  // 假设目录下有12张图
+      const imagePath = 'assets/artimuse/images/artworks_demo/';
+      const rows = 4;  // 显示3行滚动图像
+      const imagesPerRow = Math.ceil(imageCount / rows);
+      const background = document.getElementById('background-scroller');
+
+      for (let r = 0; r < rows; r++) {
+        const row = document.createElement('div');
+        row.className = 'scroll-row';
+        row.style.top = `${(100 / rows) * r}%`;
+
+        // 原图像 + 复制一份，实现无缝滚动
+        for (let dup = 0; dup < 2; dup++) { // 重复两次
+          for (let i = 0; i < imagesPerRow; i++) {
+            const imgIndex = r * imagesPerRow + i;
+            const filename = `${(imgIndex % imageCount) + 1}.jpg`;
+            const img = document.createElement('img');
+            img.src = `${imagePath}${filename}`;
+            img.className = 'scroll-img';
+            row.appendChild(img);
+          }
+        }
+
+        background.appendChild(row);
+      }
+
+    </script>
+
+    <style>
+      .scroll-row {
+        position: absolute;
+        left: 0;
+        width: 200%;
+        /* 滚动区域更宽，包含两份图像 */
+        height: calc(25% - 10px);
+        /* 每行高度去除间距 */
+        display: flex;
+        align-items: center;
+        animation: scrollRow 40s linear infinite;
+        margin-bottom: 10px;
+        /* 与图像间距一致 */
+        box-sizing: border-box;
+      }
+
+      .scroll-row:nth-child(even) {
+        animation-direction: reverse;
+      }
+
+      .scroll-row:last-child {
+        margin-bottom: 0;
+        /* 去掉最后一行多余间距 */
+      }
+
+      .scroll-img {
+        width: 400px;
+        height: 320px;
+        object-fit: cover;
+        flex-shrink: 0;
+        margin-right: 10px;
+        opacity: 1.0;
+      }
+
+      @keyframes scrollRow {
+        0% {
+          transform: translateX(0);
+        }
+
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+    </style>
+
+
+
+    <!-- Overlay to darken the background -->
+    <div style="
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom right, rgba(10, 25, 80, 0.85), rgba(30, 30, 30, 0.9));
+    z-index: 1;">
+    </div>
+
+
+
+    <!-- Main content -->
+    <div class="hero-body" style="position: relative; z-index: 2;">
+      <div class="container has-text-centered">
+        <h1 class="title is-1 has-text-weight-bold" style="color: #f8f8f6; font-style: italic;">
+          <span style="color: #FF3E3E;">A</span><span style="color: #FF914D;">r</span><span
+            style="color: #FFC94D;">t</span><span style="color: #B6E24D;">i</span><span
+            style="color: #4DDC95;">M</span><span style="color: #4DB8FF;">u</span><span
+            style="color: #8564FF;">s</span><span style="color: #C74DFF;">e</span>:
+          Fine-Grained Image Aesthetics Assessment with Joint Scoring and Expert-Level Understanding
+        </h1>
+
+        <!-- 中文副标题 -->
+        <p style="margin-top: 1rem; font-size: 3rem; color: #dcdcdc; font-weight: bold; font-style: italic; letter-spacing: 1px; font-family: 'PingFang SC', 'Hiragino Sans GB', 'Helvetica Neue', sans-serif;
+
+">
+          书生·妙析多模态美学理解大模型
+        </p>
+        
+
+
+
+
+        <style>
+          .publication-authors {
+            color: #E0E0E0;
+            /* 默认文字颜色，改为非常浅的灰色，比纯白更柔和 */
+          }
+
+          .publication-authors sup {
+            color: #E0E0E0;
+            /* 上标颜色与默认文字保持一致 */
+          }
+
+          .publication-authors a {
+            color: #87CEEB;
+            /* 亮蓝色，比原先的 #4da6ff 更亮一些，与深色背景形成对比，类似标题的亮黄色文字效果 */
+            text-decoration: none;
+            /* 去掉下划线 */
+          }
+
+          .publication-authors a:hover {
+            color: #ADD8E6;
+            /* 悬停时颜色，比默认链接颜色更亮，提供视觉反馈 */
+          }
+        </style>
+
+
+
+        <!-- Author list -->
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">
+            <a href="" target="_blank">Shuo Cao</a><sup>1,2</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Nan Ma</a><sup>3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Jiayang Li</a><sup>4</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Xiaohui Li</a><sup>2,5</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Lihao Shao</a><sup>3</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Kaiwen Zhu</a><sup>2,5</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Yu Zhou</a><sup>6</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Yuandong Pu</a><sup>2,5</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Jiarui Wu</a><sup>7</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Jiaquan Wang</a><sup>8</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Bo Qu</a><sup>2</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Wenhai Wang</a><sup>2,7</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Yu Qiao</a><sup>2</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Dajuin Yao</a><sup>3&#8224;</sup>
+          </span>
+          <span class="author-block">
+            <a href="" target="_blank">Yihao Liu</a><sup>2&#8224;</sup>
+          </span>
+        </div>
+
+        <!-- Corresponding‑author note -->
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">(&#8224; corresponding authors)</span>
+        </div>
+
+        <!-- Affiliations -->
+        <div class="is-size-5 publication-authors">
+          <span class="author-block">
+            <sup>1</sup> University of Science and Technology of China&nbsp;&nbsp;
+            <sup>2</sup> Shanghai AI Laboratory&nbsp;&nbsp;
+            <sup>3</sup> China Academy of Art&nbsp;&nbsp;<br>
+            <sup>4</sup> Peking University&nbsp;&nbsp;
+            <sup>5</sup> Shanghai Jiao Tong University&nbsp;&nbsp;
+            <sup>6</sup> Sun Yat-sen University&nbsp;&nbsp;<br>
+            <sup>7</sup> The Chinese University of Hong Kong&nbsp;&nbsp;
+            <sup>8</sup> Hong Kong Polytechnic University
+          </span>
+        </div>
+
+
+        <!-- Buttons -->
+        <div class="buttons is-centered mt-5">
+          <span class="link-block">
+            <a href="https://arxiv.org/abs/2507.14533" target="_blank"
+              class="external-link button is-normal is-rounded has-background-white has-text-black">
+              <span class="icon">
+                <i class="ai ai-arxiv"></i>
+              </span>
+              <span>Paper</span>
+            </a>
+          </span>
+          <!-- Code Link. -->
+          <span class="link-block">
+            <a href="https://github.com/thunderbolt215/ArtiMuse" target="_blank"
+              class="external-link button is-normal is-rounded has-background-white has-text-black">
+              <span class="icon">
+                <i class="fab fa-github"></i>
+              </span>
+              <span>Code</span>
+            </a>
+          </span>
+          <!-- ModelScope Demo Link. -->
+          <span class="link-block">
+            <a href="https://modelscope.cn/collections/ArtiMuse-abea7a7922274d" target="_blank"
+              class="external-link button is-normal is-rounded has-background-white has-text-black">
+              <span>🤖 Checkpoints</span>
+            </a>
+          </span>
+          <!-- Huggingface Demo Link. -->
+          <span class="link-block">
+            <a href="" target="_blank"
+              class="external-link button is-normal is-rounded has-background-white has-text-black">
+              <span class="icon">
+                <img src="assets/artimuse/hf-logo.svg" style="display:block;width:330px;height:240px" />
+              </span>
+              <span>Dataset (upcoming)</span>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News -->
+  <!-- News Section -->
+  <!-- News -->
+  <!-- News -->
+  <section style="background: white; padding: 3rem 1rem;">
+    <div class="container" style="max-width: 1000px;">
+      <div class="columns is-centered">
+        <div class="column is-full">
+          <div class="box"
+            style="background: white; border-radius: 1rem; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); padding: 2rem 2rem;">
+            <h2 class="title is-3 has-text-left" style="color: #1e3a8a; margin-bottom: 1.5rem;">
+              📰 News & Updates
+            </h2>
+            <ul class="content" style="list-style: none; padding-left: 0;">
+
+              <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start;">
+                <span style="font-size: 1.4rem; margin-right: 0.75rem; color: #2563eb;">🚀</span>
+                <div>
+                  <p style="margin-bottom: 0.3rem; font-weight: 600; color: #1a202c;">Sep 3, 2025</p>
+                  <p style="margin: 0;">The <strong>Checkpoints</strong> and <strong>Evaluation Code</strong> of ArtiMuse are now available! 🚀</p>
+                </div>
+              </li>
+              
+  
+              <!-- New WAIC News Item -->
+              <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start;">
+                <span style="font-size: 1.4rem; margin-right: 0.75rem; color: #2563eb;">🚀</span>
+                <div>
+                  <p style="margin-bottom: 0.3rem; font-weight: 600; color: #1a202c;">July 28, 2025</p>
+                  <p style="margin: 0;">
+                    <strong>ArtiMuse</strong> was officially released at <strong>WAIC 2025</strong>, in the forum
+                    <em>"Evolving with AI: The Iteration and Resilience of Artistic Creativity"</em>.
+                  </p>
+                </div>
+              </li>
+  
+              <!-- Existing News Items -->
+               
+              <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start;">
+                <span style="font-size: 1.4rem; margin-right: 0.75rem; color: #2563eb;">🚀</span>
+                <div>
+                  <p style="margin-bottom: 0.3rem; font-weight: 600; color: #1a202c;">July 24, 2025</p>
+                  <p style="margin: 0;">The <strong>Online Demo</strong> is now open for public access!</p>
+                </div>
+              </li>
+              <li style="margin-bottom: 1.5rem; display: flex; align-items: flex-start;">
+                <span style="font-size: 1.4rem; margin-right: 0.75rem; color: #2563eb;">🚀</span>
+                <div>
+                  <p style="margin-bottom: 0.3rem; font-weight: 600; color: #1a202c;">July 21, 2025</p>
+                  <p style="margin: 0;">The <strong>Paper</strong> and <strong>Project Page</strong> are now live!</p>
+                </div>
+              </li>
+  
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered" style="
+          margin-bottom: 0.5rem;
+          background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 700;
+        ">
+        Online Demo
+      </h2>
+      <!-- 底部分割线 -->
+      <div style="width: 60px; height: 3px; background-color: #60a5fa; margin: 0 auto 1.5rem auto; border-radius: 2px;">
+      </div>
+  
+      <!-- Demo入口按钮 -->
+      <div class="has-text-centered" style="margin-bottom: 2rem;">
+        <a href="http://artimuse.intern-ai.org.cn/" target="_blank" class="button is-primary is-medium"
+           style="background-color: #3b82f6; border: none;">
+          👉 Try the Online Demo Now
+        </a>
+      </div>
+  
+      <!-- 单张大图展示 -->
+      <div class="has-text-centered">
+        <figure class="image is-inline-block" style="max-width: 90%; margin-bottom: 1rem;">
+          <img src="assets/artimuse/online_demo/code.jpg" alt="Online Demo QR Code" style="border-radius: 1rem; max-width: 100%; height: auto;">
+        </figure>
+      </div>
+    </div>
+  </section>
+  
+  
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered" style="
+          margin-bottom: 0.5rem;
+          background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 700;
+        ">
+        Abstract
+      </h2>
+      <!-- 底部分割线 -->
+      <div style="width: 60px; height: 3px; background-color: #60a5fa; margin: 0 auto 1.5rem auto; border-radius: 2px;">
+      </div>
+      <!-- <h2 class="title is-3 has-text-centered" style="margin-bottom: 1rem;">Overview of ArtiMuse</h2> 新增标题 -->
+      <div class="hero-body">
+        <p style="margin-top: 0;">
+          The rapid advancement of educational applications, artistic creation, and AI-generated content (AIGC)
+          technologies has substantially increased practical requirements for comprehensive Image Aesthetics
+          Assessment (IAA), particularly demanding methods capable of delivering both quantitative scoring and
+          professional understanding. Multimodal Large Language Model (MLLM)-based IAA methods demonstrate stronger
+          perceptual and generalization capabilities compared to traditional approaches, yet they suffer from
+          modality bias (score-only or text-only) and lack fine-grained attribute decomposition, thereby failing to
+          support further aesthetic assessment. In this paper, we present:
+          <b>(1) ArtiMuse</b>, an innovative MLLM-based IAA model with Joint Scoring and Expert-Level
+          Understanding capabilities; <b>(2) ArtiMuse-10K</b>, the first expert-curated image aesthetic dataset
+          comprising 10,000 images spanning 5 main categories and 15 subcategories, each annotated by professional
+          experts with 8-dimensional attributes analysis and a holistic score. Both the model and dataset will be
+          made public to advance the field.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- teaser -->
+  <!-- teaser -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered" style="
+          margin-bottom: 0.5rem;
+          background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 700;
+        ">
+        Overview of ArtiMuse
+      </h2>
+      <!-- 底部分割线 -->
+      <div style="width: 60px; height: 3px; background-color: #60a5fa; margin: 0 auto 1.5rem auto; border-radius: 2px;">
+      </div>
+      <!-- <h2 class="title is-3 has-text-centered" style="margin-bottom: 1rem;">Overview of ArtiMuse</h2> 新增标题 -->
+      <div class="hero-body">
+        <img src="assets/artimuse/images/paper/Teaser_v4.jpg" style="width:100%; margin-bottom:10px" alt="Teaser." />
+        <p style="margin-top: 0;">
+          <b>Overview of ArtiMuse</b>. ArtiMuse provides <b>granular, expert-level textual understanding</b> results for
+          images
+          across <b>eight fine-grained aesthetic attributes</b>. Additionally, it achieves <b>precise image aesthetics
+            scoring</b>, significantly
+          outperforming state-of-the-art models across multiple widely-used benchmarks.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+  <!-- Comparison with Existing Models -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="section-title">
+          <h2 class="title is-3 has-text-centered" style="
+          margin-bottom: 0.5rem;
+          background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 700;
+        ">
+            Comparison with Existing Models
+          </h2>
+          <!-- 底部分割线 -->
+          <div
+            style="width: 60px; height: 3px; background-color: #60a5fa; margin: 0 auto 1.5rem auto; border-radius: 2px;">
+          </div>
+          <!-- <h2 class="title is-3 is-centered"> Comparison with Existing Models </h2> -->
+        </div>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <p class="is-italic has-text-black" style="margin-bottom: 5px; font-size: 1rem;">
+              <b>Aesthetic Analysis</b>
+            </p>
+            <div class="publication-img">
+              <img id="architecture" src="assets/artimuse/images/paper/intro_cmp_v3.jpg"
+                style="width:900px; margin-top:10px;margin-bottom:10px;" />
+            </div>
+          </div>
+        </div>
+        <!-- 需要先引入 Bulma 样式 -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+        <style>
+          /* 容器和表格基础样式 */
+          .table-container {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(100, 150, 255, 0.1);
+          }
+
+          table.table {
+            background-color: #ffffff;
+            border-radius: 0;
+            box-shadow: none;
+            border-collapse: separate;
+            /* 为了单独控制边框 */
+            border-spacing: 0 0;
+            /* 去除间距 */
+          }
+
+          /* 表头浅蓝色背景和字色 */
+          table.table thead tr:first-child th {
+            background: #d0e7ff;
+            color: #1a237e;
+            font-weight: 700;
+            font-size: 1.05rem;
+            border-bottom: 2px solid #90caf9;
+            border-left: none !important;
+            border-right: none !important;
+          }
+
+          table.table thead tr:nth-child(2) th {
+            background-color: #e6f0ff;
+            color: #3949ab;
+            font-weight: 600;
+            border-bottom: 1px solid #bbdefb;
+            border-left: none !important;
+            border-right: none !important;
+          }
+
+          /* 单元格居中，深灰字体，白底，无竖线 */
+          .table-container table.table td,
+          .table-container table.table th {
+            text-align: center !important;
+            vertical-align: middle !important;
+            color: #2c3e50;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.85rem;
+            background-color: #ffffff !important;
+            /* 统一白底 */
+            border-left: none !important;
+            /* 去除左边框 */
+            border-right: none !important;
+            /* 去除右边框 */
+            border-top: 1px solid #bbdefb !important;
+            /* 保留横线：上边框 */
+            border-bottom: 1px solid #bbdefb !important;
+            /* 保留横线：下边框 */
+          }
+
+          /* 第一行（thead）上边框加粗（避免两条线重叠） */
+          table.table thead tr:first-child th {
+            border-top: 3px solid #90caf9 !important;
+          }
+
+          /* 分组标题白底深蓝字，去掉背景浅蓝 */
+          tbody tr th.has-background-light {
+            background: #ffffff !important;
+            color: #1a237e;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            border: none !important;
+          }
+
+          /* 行悬浮白底不变，字体加深 */
+          tbody tr:hover:not(.highlight-row) {
+            background-color: #ffffff !important;
+            color: #0d47a1 !important;
+            cursor: default;
+            transition: color 0.3s ease;
+          }
+
+          /* 突出最后一行（我们的模型），始终生效 */
+          tbody tr.highlight-row {
+            background-color: #bbdefb !important;
+            color: #0d47a1 !important;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 0 12px 4px rgba(33, 150, 243, 0.7);
+            transform: scale(1.02);
+            transition: none;
+            /* 取消过渡动画 */
+          }
+        </style>
+
+        <p class="is-italic has-text-black has-text-centered" style="margin-bottom: 5px; font-size: 1rem;">
+          <b>Aesthetics Scoring</b>
+        </p>
+        <!-- <p class="is-italic has-text-centered"
+          style="margin-bottom: 10px; font-size: 1.3rem; color: #1976d2; font-weight: 700;">
+          Aesthetics Scoring
+        </p> -->
+
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
+            <thead>
+              <tr>
+                <th rowspan="2">Model</th>
+                <th colspan="2">AVA</th>
+                <th colspan="2">PARA</th>
+                <th colspan="2">TAD66K</th>
+                <th colspan="2">FLICKR-AES</th>
+                <th colspan="2">ArtiMuse-10K</th>
+              </tr>
+              <tr>
+                <th>SRCC</th>
+                <th>PLCC</th>
+                <th>SRCC</th>
+                <th>PLCC</th>
+                <th>SRCC</th>
+                <th>PLCC</th>
+                <th>SRCC</th>
+                <th>PLCC</th>
+                <th>SRCC</th>
+                <th>PLCC</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th colspan="11" class="has-background-light has-text-centered">Traditional Models</th>
+              </tr>
+              <tr>
+                <td>MUSIQ</td>
+                <td>0.225</td>
+                <td>0.258</td>
+                <td>0.490</td>
+                <td>0.600</td>
+                <td>0.099</td>
+                <td>0.149</td>
+                <td>0.150</td>
+                <td>0.216</td>
+                <td>-0.060</td>
+                <td>-0.074</td>
+              </tr>
+              <tr>
+                <td>TANet</td>
+                <td>0.758</td>
+                <td>0.765</td>
+                <td>–</td>
+                <td>–</td>
+                <td>0.513</td>
+                <td>0.531</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+              </tr>
+              <tr>
+                <td>VILA</td>
+                <td>0.776</td>
+                <td>0.775</td>
+                <td>0.651</td>
+                <td>0.658</td>
+                <td>0.418</td>
+                <td>0.444</td>
+                <td>0.616</td>
+                <td>0.645</td>
+                <td>0.273</td>
+                <td>0.268</td>
+              </tr>
+              <tr>
+                <td>AesMamba</td>
+                <td>0.774</td>
+                <td>0.769</td>
+                <td>0.936</td>
+                <td>0.902</td>
+                <td>0.511</td>
+                <td>0.483</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+              </tr>
+
+              <tr>
+                <th colspan="11" class="has-background-light has-text-centered">MLLMs for General-Purpose Applications
+                </th>
+              </tr>
+              <tr>
+                <td>mPLUG-Owl2</td>
+                <td>0.206</td>
+                <td>0.211</td>
+                <td>0.376</td>
+                <td>0.372</td>
+                <td>0.089</td>
+                <td>0.106</td>
+                <td>0.382</td>
+                <td>0.359</td>
+                <td>0.159</td>
+                <td>0.145</td>
+              </tr>
+              <tr>
+                <td>ShareGPT-4V</td>
+                <td>0.213</td>
+                <td>0.199</td>
+                <td>0.509</td>
+                <td>0.417</td>
+                <td>0.097</td>
+                <td>0.091</td>
+                <td>0.335</td>
+                <td>0.289</td>
+                <td>0.076</td>
+                <td>0.057</td>
+              </tr>
+              <tr>
+                <td>Qwen-2.5-VL-7B</td>
+                <td>0.391</td>
+                <td>0.371</td>
+                <td>0.721</td>
+                <td>0.743</td>
+                <td>0.240</td>
+                <td>0.242</td>
+                <td>0.621</td>
+                <td>0.578</td>
+                <td>0.256</td>
+                <td>0.179</td>
+              </tr>
+              <tr>
+                <td>Qwen-2.5-VL-72B-instruct</td>
+                <td>0.408</td>
+                <td>0.387</td>
+                <td>0.727</td>
+                <td>0.763</td>
+                <td>0.232</td>
+                <td>0.235</td>
+                <td>0.626</td>
+                <td>0.589</td>
+                <td>0.233</td>
+                <td>0.197</td>
+              </tr>
+              <tr>
+                <td>InternVL3-8B</td>
+                <td>0.364</td>
+                <td>0.332</td>
+                <td>0.667</td>
+                <td>0.693</td>
+                <td>0.203</td>
+                <td>0.191</td>
+                <td>0.553</td>
+                <td>0.459</td>
+                <td>0.187</td>
+                <td>0.157</td>
+              </tr>
+              <tr>
+                <td>InternVL3-78B</td>
+                <td>0.385</td>
+                <td>0.344</td>
+                <td>0.666</td>
+                <td>0.694</td>
+                <td>0.221</td>
+                <td>0.220</td>
+                <td>0.518</td>
+                <td>0.433</td>
+                <td>0.223</td>
+                <td>0.206</td>
+              </tr>
+              <tr>
+                <td>GPT-4o</td>
+                <td>0.509</td>
+                <td>0.485</td>
+                <td>0.697</td>
+                <td>0.744</td>
+                <td>0.278</td>
+                <td>0.282</td>
+                <td>0.605</td>
+                <td>0.597</td>
+                <td>0.333</td>
+                <td>0.276</td>
+              </tr>
+              <tr>
+                <td>Gemini-2.0-flash</td>
+                <td>0.474</td>
+                <td>0.457</td>
+                <td>0.703</td>
+                <td>0.704</td>
+                <td>0.319</td>
+                <td>0.323</td>
+                <td>0.658</td>
+                <td>0.651</td>
+                <td>0.286</td>
+                <td>0.265</td>
+              </tr>
+
+              <tr>
+                <th colspan="11" class="has-background-light has-text-centered">MLLMs for Image Aesthetics Assessment
+                </th>
+              </tr>
+              <tr>
+                <td>Q-Instruct</td>
+                <td>0.318</td>
+                <td>0.338</td>
+                <td>0.569</td>
+                <td>0.724</td>
+                <td>0.122</td>
+                <td>0.159</td>
+                <td>0.259</td>
+                <td>0.299</td>
+                <td>-0.045</td>
+                <td>-0.056</td>
+              </tr>
+              <tr>
+                <td>PEAS</td>
+                <td>0.748</td>
+                <td>0.748</td>
+                <td>0.686</td>
+                <td>0.700</td>
+                <td>0.415</td>
+                <td>0.444</td>
+                <td>0.577</td>
+                <td>0.613</td>
+                <td>0.306</td>
+                <td>0.293</td>
+              </tr>
+              <tr>
+                <td>Q-Align</td>
+                <td>0.822</td>
+                <td>0.817</td>
+                <td>0.913</td>
+                <td>0.888</td>
+                <td>0.501</td>
+                <td>0.531</td>
+                <td>0.798</td>
+                <td>0.818</td>
+                <td>0.551</td>
+                <td>0.573</td>
+              </tr>
+              <tr>
+                <td>UNIAA-LLaVA</td>
+                <td>0.713</td>
+                <td>0.704</td>
+                <td>0.864</td>
+                <td>0.895</td>
+                <td>0.411</td>
+                <td>0.425</td>
+                <td>0.724</td>
+                <td>0.751</td>
+                <td>–</td>
+                <td>–</td>
+              </tr>
+              <tr>
+                <td>Next Token Is Enough</td>
+                <td>0.828</td>
+                <td>0.825</td>
+                <td>–</td>
+                <td>–</td>
+                <td>0.413</td>
+                <td>0.444</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+              </tr>
+
+              <tr class="highlight-row">
+                <td>ArtiMuse</td>
+                <td>0.827</td>
+                <td>0.826</td>
+                <td>0.936</td>
+                <td>0.958</td>
+                <td>0.510</td>
+                <td>0.543</td>
+                <td>0.814</td>
+                <td>0.837</td>
+                <td>0.614</td>
+                <td>0.627</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+        <style>
+          /* 强化选择器优先级 */
+          .table-container table.table td {
+            text-align: center !important;
+            vertical-align: middle !important;
+          }
+
+          .table-container table.table th {
+            text-align: center !important;
+            vertical-align: middle !important;
+          }
+        </style>
+
+        <p class="is-italic has-text-centered has-text-black" style="margin-bottom: 5px; font-size: 1rem;">
+          <b>Aesthetics Scoring</b>
+        </p>
+
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-hoverable is-fullwidth is-size-7">
+            <thead>
+              <tr>
+                <th rowspan="2" style="text-align:center;">Model</th>
+                <th colspan="2" style="text-align:center;">AVA</th>
+                <th colspan="2" style="text-align:center;">PARA</th>
+                <th colspan="2" style="text-align:center;">TAD66K</th>
+                <th colspan="2" style="text-align:center;">FLICKR-AES</th>
+                <th colspan="2" style="text-align:center;">ArtiMuse-10K</th>
+              </tr>
+              <tr>
+                <th style="text-align:center;">SRCC</th>
+                <th style="text-align:center;">PLCC</th>
+                <th style="text-align:center;">SRCC</th>
+                <th style="text-align:center;">PLCC</th>
+                <th style="text-align:center;">SRCC</th>
+                <th style="text-align:center;">PLCC</th>
+                <th style="text-align:center;">SRCC</th>
+                <th style="text-align:center;">PLCC</th>
+                <th style="text-align:center;">SRCC</th>
+                <th style="text-align:center;">PLCC</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th colspan="11" class="has-background-light has-text-centered">Traditional Models</th>
+              </tr>
+              <tr>
+                <td>MUSIQ</td>
+                <td>0.225</td>
+                <td>0.258</td>
+                <td>0.490</td>
+                <td>0.600</td>
+                <td>0.099</td>
+                <td>0.149</td>
+                <td>0.150</td>
+                <td>0.216</td>
+                <td>-0.060</td>
+                <td>-0.074</td>
+              </tr>
+              <tr>
+                <td>TANet</td>
+                <td>0.758</td>
+                <td>0.765</td>
+                <td>–</td>
+                <td>–</td>
+                <td>0.513</td>
+                <td>0.531</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+              </tr>
+              <tr>
+                <td>VILA</td>
+                <td>0.776</td>
+                <td>0.775</td>
+                <td>0.651</td>
+                <td>0.658</td>
+                <td>0.418</td>
+                <td>0.444</td>
+                <td>0.616</td>
+                <td>0.645</td>
+                <td>0.273</td>
+                <td>0.268</td>
+              </tr>
+              <tr>
+                <td>AesMamba</td>
+                <td>0.774</td>
+                <td>0.769</td>
+                <td>0.936</td>
+                <td>0.902</td>
+                <td>0.511</td>
+                <td>0.483</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+              </tr>
+
+              <tr>
+                <th colspan="11" class="has-background-light has-text-centered">MLLMs for General-Purpose Applications
+                </th>
+              </tr>
+              <tr>
+                <td>mPLUG-Owl2</td>
+                <td>0.206</td>
+                <td>0.211</td>
+                <td>0.376</td>
+                <td>0.372</td>
+                <td>0.089</td>
+                <td>0.106</td>
+                <td>0.382</td>
+                <td>0.359</td>
+                <td>0.159</td>
+                <td>0.145</td>
+              </tr>
+              <tr>
+                <td>ShareGPT-4V</td>
+                <td>0.213</td>
+                <td>0.199</td>
+                <td>0.509</td>
+                <td>0.417</td>
+                <td>0.097</td>
+                <td>0.091</td>
+                <td>0.335</td>
+                <td>0.289</td>
+                <td>0.076</td>
+                <td>0.057</td>
+              </tr>
+              <tr>
+                <td>Qwen-2.5-VL-7B</td>
+                <td>0.391</td>
+                <td>0.371</td>
+                <td>0.721</td>
+                <td>0.743</td>
+                <td>0.240</td>
+                <td>0.242</td>
+                <td>0.621</td>
+                <td>0.578</td>
+                <td>0.256</td>
+                <td>0.179</td>
+              </tr>
+              <tr>
+                <td>Qwen-2.5-VL-72B-instruct</td>
+                <td>0.408</td>
+                <td>0.387</td>
+                <td>0.727</td>
+                <td>0.763</td>
+                <td>0.232</td>
+                <td>0.235</td>
+                <td>0.626</td>
+                <td>0.589</td>
+                <td>0.233</td>
+                <td>0.197</td>
+              </tr>
+              <tr>
+                <td>InternVL3-8B</td>
+                <td>0.364</td>
+                <td>0.332</td>
+                <td>0.667</td>
+                <td>0.693</td>
+                <td>0.203</td>
+                <td>0.191</td>
+                <td>0.553</td>
+                <td>0.459</td>
+                <td>0.187</td>
+                <td>0.157</td>
+              </tr>
+              <tr>
+                <td>InternVL3-78B</td>
+                <td>0.385</td>
+                <td>0.344</td>
+                <td>0.666</td>
+                <td>0.694</td>
+                <td>0.221</td>
+                <td>0.220</td>
+                <td>0.518</td>
+                <td>0.433</td>
+                <td>0.223</td>
+                <td>0.206</td>
+              </tr>
+              <tr>
+                <td>GPT-4o</td>
+                <td>0.509</td>
+                <td>0.485</td>
+                <td>0.697</td>
+                <td>0.744</td>
+                <td>0.278</td>
+                <td>0.282</td>
+                <td>0.605</td>
+                <td>0.597</td>
+                <td>0.333</td>
+                <td>0.276</td>
+              </tr>
+              <tr>
+                <td>Gemini-2.0-flash</td>
+                <td>0.474</td>
+                <td>0.457</td>
+                <td>0.703</td>
+                <td>0.704</td>
+                <td>0.319</td>
+                <td>0.323</td>
+                <td>0.658</td>
+                <td>0.651</td>
+                <td>0.286</td>
+                <td>0.265</td>
+              </tr>
+
+              <tr>
+                <th colspan="11" class="has-background-light has-text-centered">MLLMs for Image Aesthetics Assessment
+                </th>
+              </tr>
+              <tr>
+                <td>Q-Instruct</td>
+                <td>0.318</td>
+                <td>0.338</td>
+                <td>0.569</td>
+                <td>0.724</td>
+                <td>0.122</td>
+                <td>0.159</td>
+                <td>0.259</td>
+                <td>0.299</td>
+                <td>-0.045</td>
+                <td>-0.056</td>
+              </tr>
+              <tr>
+                <td>PEAS</td>
+                <td>0.748</td>
+                <td>0.748</td>
+                <td>0.686</td>
+                <td>0.700</td>
+                <td>0.415</td>
+                <td>0.444</td>
+                <td>0.577</td>
+                <td>0.613</td>
+                <td>0.306</td>
+                <td>0.293</td>
+              </tr>
+              <tr>
+                <td>Q-Align</td>
+                <td>0.822</td>
+                <td>0.817</td>
+                <td>0.913</td>
+                <td>0.888</td>
+                <td>0.501</td>
+                <td>0.531</td>
+                <td>0.798</td>
+                <td>0.818</td>
+                <td>0.551</td>
+                <td>0.573</td>
+              </tr>
+              <tr>
+                <td>UNIAA-LLaVA</td>
+                <td>0.713</td>
+                <td>0.704</td>
+                <td>0.864</td>
+                <td>0.895</td>
+                <td>0.411</td>
+                <td>0.425</td>
+                <td>0.724</td>
+                <td>0.751</td>
+                <td>–</td>
+                <td>–</td>
+              </tr>
+              <tr>
+                <td>Next Token Is Enough</td>
+                <td>0.828</td>
+                <td>0.825</td>
+                <td>–</td>
+                <td>–</td>
+                <td>0.413</td>
+                <td>0.444</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+                <td>–</td>
+              </tr>
+
+              <tr class="has-background-grey-lighter has-text-weight-bold">
+                <td>ArtiMuse (Ours)</td>
+                <td>0.827</td>
+                <td>0.826</td>
+                <td>0.936</td>
+                <td>0.958</td>
+                <td>0.510</td>
+                <td>0.543</td>
+                <td>0.814</td>
+                <td>0.837</td>
+                <td>0.614</td>
+                <td>0.627</td>
+              </tr>
+            </tbody>
+          </table>
+        </div> -->
+
+        <p style="margin-top: 0;">
+          In comparison with existing models, ArtiMuse outperforms them by simultaneously achieving both <b>accurate
+            aesthetic analysis</b> and <b>precise aesthetics scoring</b> in multi-dimensional assessments. </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <!-- ① 引入 Bulma 与可选的图标字体 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="section-title">
+        <h2 class="title is-3 has-text-centered" style="
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    ">
+          Results on Real‑world Images
+        </h2>
+        <!-- 底部分割线 -->
+        <div
+          style="width: 60px; height: 3px; background-color: #60a5fa; margin: 0 auto 1.5rem auto; border-radius: 2px;">
+        </div>
+      </div>
+
+      <div class="columns is-vcentered">
+        <!-- ===== 左侧：图像容器 ===== -->
+        <div class="column is-half"
+          style="display: flex; flex-direction: column; justify-content: center; height: 100%; align-items: center;">
+          <!-- 外层容器添加 align-items: center 确保水平居中 -->
+          <div style="display: flex; flex-direction: column; align-items: center; width: 550px;">
+            <!-- 图像容器 -->
+            <div class="image-container" style="
+              position: relative;
+              width:480px;
+              height: 360px;
+              margin: 0 auto;
+              overflow: hidden;
+              border-radius: 8px;
+              background: #f5f5f5;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            ">
+              <img id="main-img" src="img1.jpg" style="width: 100%; height: 100%; object-fit: cover;" />
+              <!-- 导航按钮 -->
+              <button id="prev" class="button is-small is-light"
+                style="position:absolute;left:12px;top:50%;transform:translateY(-50%);">
+                <span class="icon"><i class="fas fa-chevron-left"></i></span>
+              </button>
+              <button id="next" class="button is-small is-light"
+                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);">
+                <span class="icon"><i class="fas fa-chevron-right"></i></span>
+              </button>
+            </div>
+
+            <!-- 评分框 (与图像同宽且对齐) -->
+            <div style="
+              width: 480px;
+              margin-top: 1rem;
+              padding: 0.8rem 1.5rem;
+              background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+              border-radius: 8px;
+              border-left: 4px solid #38bdf8;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+              text-align: center;
+            ">
+              <div style="
+                font-size: 0.9rem;
+                color: #0369a1;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                margin-bottom: 0.2rem;
+              ">
+                Aesthetics Score
+              </div>
+              <div style="
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #0c4a6e;
+              ">
+                <span id="score" style="color: #0284c7;">87</span>
+                <span style="font-weight: 400; color: #64748b;"> / 100</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 右侧：按钮 ===== -->
+        <div class="column is-half" style="height: 100%;">
+          <div id="tab-buttons" class="buttons is-multiline"
+            style="height: 100%; display: flex; flex-direction: column; justify-content: center; margin-left: 10;">
+            <div style="display: flex; flex-direction: column; gap: 0rem;">
+              <!-- 统一白色文字 + 文字阴影提升可读性 -->
+              <button class="button is-selected" data-panel="composition"
+                style="width: 145%; color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5)">Composition &amp;
+                Design</button>
+              <button class="button" data-panel="visual"
+                style="width: 145%; color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5)">Visual Elements
+                &amp; Structure</button>
+              <button class="button" data-panel="technical"
+                style="width: 145%; color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5)">Technical
+                Execution</button>
+              <button class="button" data-panel="originality"
+                style="width: 145%; color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5)">Originality &amp;
+                Creativity</button>
+              <button class="button" data-panel="theme"
+                style="width: 145%; color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5)">Theme &amp;
+                Communication</button>
+              <button class="button" data-panel="emotion"
+                style="width: 145%; color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5)">Emotion &amp;
+                Viewer Response</button>
+              <button class="button" data-panel="gestalt"
+                style="width: 145%; color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5)">Overall
+                Gestalt</button>
+              <button class="button" data-panel="overall"
+                style="width: 145%; color: white !important; text-shadow: 0 1px 3px rgba(0,0,0,0.5)">Comprehensive
+                Evaluation</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 文本框部分 ===== -->
+      <div id="panels" style="margin-top: 1.5rem; height: 250px;"> <!-- 增加高度 -->
+        <div id="composition" class="panel-content is-active"></div>
+        <div id="visual" class="panel-content"></div>
+        <div id="technical" class="panel-content"></div>
+        <div id="originality" class="panel-content"></div>
+        <div id="theme" class="panel-content"></div>
+        <div id="emotion" class="panel-content"></div>
+        <div id="gestalt" class="panel-content"></div>
+        <div id="overall" class="panel-content"></div>
+      </div>
+    </div>
+
+    <!-- ===== 交互脚本 ===== -->
+    <script>
+      /* 图片、分数、JSON 路径 */
+      const images = [
+        {
+          src: 'assets/artimuse/images/results/images/img_20250606_205014582209.jpg',
+          score: 86, json: 'assets/artimuse/images/results/analysis/img_20250606_205014582209.json'
+        },
+        {
+          src: 'assets/artimuse/images/results/images/img_20250609_102200391755.jpg',
+          score: 46, json: 'assets/artimuse/images/results/analysis/img_20250609_102200391755.json'
+        },
+        {
+          src: 'assets/artimuse/images/results/images/img_20250604_222126032553.jpg',
+          score: 33, json: 'assets/artimuse/images/results/analysis/img_20250604_222126032553.json'
+        },
+        {
+          src: 'assets/artimuse/images/results/images/zdq_1.jpg',
+          score: 87, json: 'assets/artimuse/images/results/analysis/zdq_1.json'
+        },
+        {
+          src: 'assets/artimuse/images/results/images/img_20250609_141559880336.jpg',
+          score: 96, json: 'assets/artimuse/images/results/analysis/img_20250609_141559880336.json'
+        },
+        {
+          src: 'assets/artimuse/images/results/images/img_20250530_205539491476.jpg',
+          score: 69, json: 'assets/artimuse/images/results/analysis/img_20250530_205539491476.json'
+        },
+        {
+          src: 'assets/artimuse/images/results/images/0_420.jpg',
+          score: 54, json: 'assets/artimuse/images/results/analysis/0_420.json'
+        },
+        {
+          src: 'assets/artimuse/images/results/images/8_23.jpg',
+          score: 65, json: 'assets/artimuse/images/results/analysis/8_23.json'
+        },
+        {
+          src: 'assets/artimuse/images/results/images/img_20250530_193518371464.jpg',
+          score: 70, json: 'assets/artimuse/images/results/analysis/img_20250530_193518371464.json'
+        },
+        {
+          src: 'assets/artimuse/images/results/images/img_20250611_130831439697.jpg',
+          score: 71, json: 'assets/artimuse/images/results/analysis/img_20250611_130831439697.json'
+        }
+      ];
+
+      const imgEl = document.getElementById('main-img');
+      const scoreEl = document.getElementById('score');
+      const panels = document.querySelectorAll('.panel-content');
+      const buttons = document.querySelectorAll('#tab-buttons .button');
+
+      let current = 0;
+      const metaCache = new Map();
+
+      /* --- 面板 id ↔ JSON 键 的映射 --- */
+      const PANEL_MAP = {
+        composition: 'Composition & Design',
+        visual: 'Visual Elements & Structure',
+        technical: 'Technical Execution',
+        originality: 'Originality & Creativity',
+        theme: 'Theme & Communication',
+        emotion: 'Emotion & Viewer Response',
+        gestalt: 'Overall Gestalt',
+        overall: 'Comprehensive Evaluation'
+      };
+
+      async function show(index) {
+        const { src, score, json } = images[index];
+        imgEl.src = src;
+        scoreEl.textContent = score;
+
+        /* 载入 / 缓存 JSON */
+        let meta = metaCache.get(json);
+        if (!meta) {
+          try {
+            const res = await fetch(json);
+            meta = res.ok ? await res.json() : {};
+            metaCache.set(json, meta);
+          } catch (e) { meta = {}; }
+        }
+
+        /* 用 PANEL_MAP 把 id 转回 JSON 键名 */
+        panels.forEach(p => {
+          const key = PANEL_MAP[p.id] || p.id;
+          const txt = meta[key]?.response ?? 'No description.';
+          p.dataset.content = txt;
+        });
+
+        /* 把当前激活面板的文字马上写出来 */
+        const active = document.querySelector('.panel-content.is-active');
+        if (active) active.textContent = active.dataset.content;
+      }
+
+      /* 左右切换图片 */
+      document.getElementById('prev').onclick = () => {
+        current = (current - 1 + images.length) % images.length;
+        show(current);
+      };
+      document.getElementById('next').onclick = () => {
+        current = (current + 1) % images.length;
+        show(current);
+      };
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft') document.getElementById('prev').click();
+        if (e.key === 'ArrowRight') document.getElementById('next').click();
+      });
+
+      /* 点击按钮切换面板并显示文字 */
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.classList.remove('is-selected'));
+          btn.classList.add('is-selected');
+
+          const target = btn.dataset.panel;
+          panels.forEach(p => {
+            const active = p.id === target;
+            p.classList.toggle('is-active', active);
+            if (active) p.textContent = p.dataset.content;
+          });
+        });
+      });
+
+      /* 初始化 */
+      show(current);
+    </script>
+
+    <!-- ===== 样式补充 ===== -->
+    <style>
+      /* 按钮样式 */
+      #tab-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      #tab-buttons .button {
+        text-align: center;
+        justify-content: center;
+        white-space: normal;
+        height: auto;
+        padding: 0.75rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        width: 100%;
+        flex: none;
+        border: none;
+        color: white;
+        font-weight: bold;
+        opacity: 0.9;
+      }
+
+      /* 浅色彩虹配色按钮 */
+      #tab-buttons .button:nth-child(1) {
+        background-color: rgba(255, 62, 62, 0.7);
+        /* 浅红 */
+      }
+
+      #tab-buttons .button:nth-child(2) {
+        background-color: rgba(255, 145, 77, 0.7);
+        /* 浅橙 */
+      }
+
+      #tab-buttons .button:nth-child(3) {
+        background-color: rgba(255, 201, 77, 0.7);
+        /* 浅黄 */
+      }
+
+      #tab-buttons .button:nth-child(4) {
+        background-color: rgba(182, 226, 77, 0.7);
+        /* 浅绿 */
+      }
+
+      #tab-buttons .button:nth-child(5) {
+        background-color: rgba(77, 220, 149, 0.7);
+        /* 浅青 */
+      }
+
+      #tab-buttons .button:nth-child(6) {
+        background-color: rgba(77, 184, 255, 0.7);
+        /* 浅蓝 */
+      }
+
+      /* 最后两个按钮单独处理 */
+      #tab-buttons .button:nth-child(7),
+      #tab-buttons .button:nth-child(8) {
+        width: 100%;
+        /* 确保各占一行 */
+        display: block;
+        margin-top: 0.5rem;
+      }
+
+      #tab-buttons .button:nth-child(7) {
+        background-color: rgba(133, 100, 255, 0.7);
+        /* 浅靛 */
+      }
+
+      #tab-buttons .button:nth-child(8) {
+        background-color: rgba(199, 77, 255, 0.7);
+        /* 浅紫 */
+      }
+
+      /* 悬停效果 */
+      #tab-buttons .button:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 激活按钮高亮 */
+      .button.is-selected {
+        opacity: 1;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        border-left: 4px solid white;
+      }
+
+      /* 文本面板样式 */
+      .panel-content {
+        display: none;
+        height: 100%;
+        background-color: #ffffff;
+        padding: 1.25rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        color: #333;
+        font-size: 1rem;
+        line-height: 1.7;
+        overflow-y: auto;
+      }
+
+      .panel-content.is-active {
+        display: block;
+      }
+
+      /* 列布局 */
+      .columns.is-vcentered {
+        align-items: center;
+        min-height: 420px;
+      }
+
+      /* 响应式调整 */
+      @media screen and (max-width: 768px) {
+        .columns {
+          flex-direction: column;
+        }
+
+        .column.is-half {
+          width: 100%;
+        }
+
+        .image-container {
+          width: 100%;
+          height: 300px;
+        }
+
+        #panels {
+          height: 180px;
+        }
+      }
+    </style>
+  </section>
+
+
+  <!-- ArtiMuse-10K dataset -->
+  <section class="hero teaser" style="margin-top: 3rem;"> <!-- 添加顶部间距 -->
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="section-title">
+          <h2 class="title is-3 has-text-centered" style="
+background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+font-weight: 700;
+margin-bottom: 0.5rem;
+">
+            ArtiMuse-10K Dataset
+          </h2>
+          <!-- 底部分割线 -->
+          <div
+            style="width: 60px; height: 3px; background-color: #60a5fa; margin: 0 auto 1.5rem auto; border-radius: 2px;">
+          </div>
+        </div>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="assets/artimuse/images/paper/dataset.png"
+                style="width:800px; margin-top:10px;margin-bottom:10px;" />
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 0;">
+          We construct <b>ArtiMuse-10K</b>, a high-quality dataset comprising 10,000 carefully curated images spanning
+          <b>5 primary categories</b>: Graphic Design, 3D Design, AIGC-generated images, Photography, and Painting &
+          Calligraphy.
+          These categories are subdivided into <b>15 distinct subcategories</b>, such as Chinese Painting,
+          Sculpture, and Daily Photography, ensuring comprehensive representation of diverse artistic
+          expressions. Each image is
+          annotated by professional experts on <b>eight aesthetic attributes</b> and an <b>overall aesthetics score</b>,
+          offering superior professional rigor and annotation granularity. ArtiMuse-10K far exceeds existing IAA
+          datasets in diversity and
+          granularity.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Pipeline of ArtiMuse -->
+  <!-- Data Curation and Model Training -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="section-title">
+          <h2 class="title is-3 has-text-centered" style="
+          margin-bottom: 0.5rem;
+          background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 700;">
+            Data Curation and Model Training
+          </h2>
+          <!-- 底部分割线 -->
+          <div
+            style="width: 60px; height: 3px; background-color: #60a5fa; margin: 0 auto 1.5rem auto; border-radius: 2px;">
+          </div>
+        </div>
+
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="assets/artimuse/images/paper/pipieline_page-0001.jpg"
+                style="width:800px; margin-top:10px;margin-bottom:10px;" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 修改为左对齐 -->
+        <p style="margin-top: 0; text-align: left;">
+          <b>Pipeline of ArtiMuse.</b> ArtiMuse encompasses a multi-stage pipeline spanning <b>data collection &
+            processing,
+            annotation generation, and model training,</b> systematically enhancing its text evaluation capabilities and
+          score
+          assessment proficiency across multiple dimensions.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- More Results -->
+  <!-- <section class="section" style="margin-top:-50px; margin-bottom:-50px;">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="section-title">
+          <h2 class="title is-3 is-centered">Comparison with Existing Methods </h2>
+        </div>
+        <div class="columns is-centered has-text-centered">
+          <div class="column">
+            <div class="publication-img">
+              <img id="architecture" src="assets/artimuse/images/paper/aigc_comp_page-0001.jpg"
+                style="width:800px; margin-top:10px;margin-bottom:10px;" />
+              <img id="architecture" src="assets/artimuse/images/paper/photo_comp_page-0001.jpg"
+                style="width:800px; margin-top:10px;margin-bottom:10px;" />
+              <img id="architecture" src="assets/artimuse/images/paper/painting_comp_page-0001.jpg"
+                style="width:800px; margin-top:10px;margin-bottom:10px;" />
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 0;">
+
+        </p>
+
+      </div>
+    </div>
+  </section> -->
+
+  <!-- BibTeX -->
+  <section class="hero is-light is-small" id="BibTeX">
+    <div class="container is-max-desktop content" style="margin-top: 40px; margin-bottom: 20px;">
+      <h2 class="title">BibTeX</h2>
+      <p>If you find our work useful, please consider citing our paper:</p>
+      <pre><code></code></pre>
+
+      <!-- <p>Our related projects: <a href="https://vchitect.github.io/Evaluation-Agent-project/" target="_blank"
+          style="color: #007BFF;">Evaluation Agent</a></p>
+      <pre><code>@article{zhang2024evaluationagent,
+  title = {Evaluation Agent: Efficient and Promptable Evaluation Framework for Visual Generative Models},
+  author = {Zhang, Fan and Tian, Shulin and Huang, Ziqi and Qiao, Yu and Liu, Ziwei},
+  journal={arXiv preprint arXiv:2412.09645},
+  year = {2024}
+}</code></pre> -->
+    </div>
+  </section>
+
+
+  <!-- footer
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <a class="icon-link" href="https://vchitect.github.io/artimuse-project/">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a class="icon-link" href="https://github.com/Vchitect/artimuse" class="external-link" disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              Website source code based on the <a href="https://nerfies.github.io/"> Nerfies</a> project page. If you
+              want to reuse their <a href="https://github.com/nerfies/nerfies.github.io">source code</a>, please credit
+              them appropriately.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer> -->
+
+</body>
+
+</html>
