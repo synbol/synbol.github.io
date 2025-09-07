@@ -582,7 +582,7 @@
         for (let dup = 0; dup < 2; dup++) { // 重复两次
           for (let i = 0; i < imagesPerRow; i++) {
             const imgIndex = r * imagesPerRow + i;
-            const filename = `${(imgIndex % imageCount) + 1}.jpg`;
+            const filename = `${(imgIndex % imageCount) + 1}.jpeg`;
             const img = document.createElement('img');
             img.src = `${imagePath}${filename}`;
             img.className = 'scroll-img';
