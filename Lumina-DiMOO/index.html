@@ -495,26 +495,26 @@
           font-size: 0.85rem;
       }
 
-      /* 行悬浮白底不变，字体加深 */
-          tbody tr:hover:not(.highlight-row) {
-            background-color: #ffffff !important;
-            color: #0d47a1 !important;
-            cursor: default;
-            transition: color 0.3s ease;
-          }
-
-      /* 突出最后一行（我们的模型），始终生效 */
-      tbody tr.highlight-row {
-        background-color: #ffffff !important;
-        color: #0d47a1 !important;
-        font-weight: 700;
-        font-size: 0.95rem;
-        box-shadow: 0 0 12px 4px rgba(33, 150, 243, 0.7);
-        transform: scale(1.02);
-        transition: none;
-        /* 取消过渡动画 */
+      /* 悬浮+发光效果（亮蓝色） */
+      tr:hover {
+        box-shadow: 0px 4px 15px rgba(0, 136, 255, 0.6); /* 边框发光的效果 */
+        border-radius: 5px; /* 使边框略微圆润 */
+        z-index: 1; /* 将当前行叠在上层，确保不被覆盖 */
+        transform: scale(1.03); /* 略微放大当前行 */
       }
       
+      /* Highlight 行的基础样式 */
+      tr.highlight-row {
+        background-color: #f8faff; /* 设置行背景色为浅蓝色 */
+      }
+      
+      /* Highlight 行悬浮效果 */
+      tr.highlight-row:hover {
+        background-color: #e0f3ff; /* 悬浮时背景色过渡为更浅蓝 */
+        box-shadow: 0px 4px 20px rgba(0, 136, 255, 0.7); /* 发光效果变得更明显 */
+        transform: scale(1.05); /* 略微放大效果 */
+      }
+            
       /* Responsive adjustments */
       @media (max-width: 768px) {
           header {
