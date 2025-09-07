@@ -494,6 +494,18 @@
           color: #6b7280;
           font-size: 0.85rem;
       }
+
+      /* 突出最后一行（我们的模型），始终生效 */
+      tbody tr.highlight-row {
+        background-color: #bbdefb !important;
+        color: #0d47a1 !important;
+        font-weight: 700;
+        font-size: 0.95rem;
+        box-shadow: 0 0 12px 4px rgba(33, 150, 243, 0.7);
+        transform: scale(1.02);
+        transition: none;
+        /* 取消过渡动画 */
+      }
       
       /* Responsive adjustments */
       @media (max-width: 768px) {
