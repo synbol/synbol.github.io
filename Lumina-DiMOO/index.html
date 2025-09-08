@@ -822,7 +822,7 @@
       .scroll-row {
         position: absolute;
         left: 0;
-        width: 200%;
+        width: 100%;
         /* 滚动区域更宽，包含两份图像 */
         height: calc(25% - 10px);
         /* 每行高度去除间距 */
@@ -845,7 +845,7 @@
 
       .scroll-img {
         width: 400px;
-        height: 307px;
+        height: 400px;
         object-fit: cover;
         flex-shrink: 0;
         margin-right: 10px;
@@ -1339,7 +1339,7 @@
                   document.getElementById('question-text').textContent = qaData[index].question;
                   document.getElementById('answer-text').innerHTML = `
                       <div>
-                          <h3 style="margin-bottom: 15px; color: white; font-size: 20px;">答案：</h3>
+                          <h3 style="margin-bottom: 15px; color: red; font-size: 20px;">Answer：</h3>
                           <p>${qaData[index].answer}</p>
                       </div>
                   `;
