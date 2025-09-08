@@ -516,6 +516,9 @@
       } */
 
     /* 悬浮的发光效果（亮蓝色） */
+
+
+      /* 悬浮的发光效果（亮蓝色） */
       tr:hover {
         box-shadow: 0px 4px 15px rgba(0, 136, 255, 0.6); 
         border-radius: 5px;
@@ -527,16 +530,17 @@
       tr.highlight-row {
         background-color: #e0f3ff; /* 设置行背景色为浅蓝色 */
         box-shadow: 0px 4px 20px rgba(0, 136, 255, 0.7); /* 持续的发光效果 */
-        transform: scale(1.05); /* 始终的放大效果 */
         font-weight: bold; /* 文字加粗 */
+        font-size: 15px; /* 调整字体大小，保持与普通行视觉一致 */
         z-index: 1; /* 确保叠加顺序 */
+        transform: scale(1.05); /* 始终的放大效果 */
       }
       
-      /* Highlight 行悬浮效果可保持变化或不变 */
-      tr.highlight-row:hover {
-        /* 悬浮时的样式可以根据需要进一步微调 */
+      /* 选择特定单元格微调（如必要） */
+      tr.highlight-row td {
+        /* 如果仍需调整某列视觉对齐情况，可以在此处微调 */
       }
-            
+              
       /* Responsive adjustments */
       @media (max-width: 768px) {
           header {
