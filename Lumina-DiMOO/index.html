@@ -518,6 +518,7 @@
             object-fit: cover;
             display: none;
             transition: opacity 0.5s ease-in-out;
+            margin: 0 auto; /* 水平居中 */
         }
 
         .carousel-image.active {
@@ -621,7 +622,7 @@
             box-shadow: 0 8px 25px rgba(225, 190, 231, 0.4);
             overflow-y: auto;
             flex: 1; /* 占据右侧全部高度 */
-            min-height: 500px; /* 确保有足够高度 */
+            min-height: 300px; /* 确保有足够高度 */
         }
 
         .answer-title {
@@ -1297,7 +1298,7 @@
             <div class="right-section">
                 <div class="answer-box" id="answer-text">
                     <div>
-                        <div class="answer-title">答案：</div>
+                        <div class="answer-title">Answer：</div>
                         <p>这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。现在右侧区域会占据更多空间来显示完整的答案内容。</p>
                     </div>
                 </div>
@@ -1310,8 +1311,8 @@
             // 问题和答案数据
             const qaData = [
                 {
-                    question: "这是第一张图片对应的问题。请在这里输入您想要展示的问题内容。",
-                    answer: "这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。现在右侧区域会占据更多空间来显示完整的答案内容。"
+                    question: "Please describe this image.",
+                    answer: "The image is a panoramic view of a cityscape with a body of water in the background. The city is surrounded by greenery and mountains in the distance. The sky is partly cloudy, suggesting a pleasant day. The image is taken from a high vantage point, showcasing the cityscape and its surrounding environment. The composition of the image gives a sense of scale and depth. There are no discernible texts or human figures in the image."
                 },
                 {
                     question: "这是第二张图片对应的问题。您可以在这里描述与图片相关的问题。",
@@ -1344,7 +1345,7 @@
                     document.getElementById('question-text').textContent = qaData[index].question;
                     document.getElementById('answer-text').innerHTML = `
                         <div>
-                            <div class="answer-title">答案：</div>
+                            <div class="answer-title">Answer：</div>
                             <p>${qaData[index].answer}</p>
                         </div>
                     `;
