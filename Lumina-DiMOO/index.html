@@ -744,8 +744,8 @@
           <span style="color: #0099FF; font-size: 80px;">O</span>
           <span style="color: #66FF66; font-size: 80px;">O</span>
         </h1>
-        <h1 class="title is-1 has-text-weight-bold" style="color: #f8f8f6; font-style: italic;">
-          An Omni Diffusion Large Language Model for Multi-Modal <br> Generation and Understanding
+        <h1 class="title is-1 has-text-weight-bold" style="color: #f8f8f6; font-style: italic; font-size: 60px;">
+          An Omni Diffusion Large Language Model for Multi-Modal Generation and Understanding
         </h1>
         
         <style>
@@ -1111,6 +1111,72 @@
                       <p class="teaser-caption">A serene, snow-capped mountain range reflected in a crystal-clear turquoise lake. The towering peaks are dusted with fresh snow, their slopes covered in vibrant green pine trees reaching towards the sky. </p>
                   </div>
           </div>
+
+
+          <h3>Image Understanding</h3>
+          <div class="columns is-vcentered">
+            <!-- ===== 左侧：图像容器 ===== -->
+            <div class="column is-half"
+              style="display: flex; flex-direction: column; justify-content: center; height: 100%; align-items: center;">
+              <!-- 外层容器添加 align-items: center 确保水平居中 -->
+              <div style="display: flex; flex-direction: column; align-items: center; width: 550px;">
+                <!-- 图像容器 -->
+                <div class="image-container" style="
+                  position: relative;
+                  width:480px;
+                  height: 360px;
+                  margin: 0 auto;
+                  overflow: hidden;
+                  border-radius: 8px;
+                  background: #f5f5f5;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                ">
+                  <img id="main-img" src="img1.jpg" style="width: 100%; height: 100%; object-fit: cover;" />
+                  <!-- 导航按钮 -->
+                  <button id="prev" class="button is-small is-light"
+                    style="position:absolute;left:12px;top:50%;transform:translateY(-50%);">
+                    <span class="icon"><i class="fas fa-chevron-left"></i></span>
+                  </button>
+                  <button id="next" class="button is-small is-light"
+                    style="position:absolute;right:12px;top:50%;transform:translateY(-50%);">
+                    <span class="icon"><i class="fas fa-chevron-right"></i></span>
+                  </button>
+                </div>
+    
+                <!-- 评分框 (与图像同宽且对齐) -->
+                <div style="
+                  width: 480px;
+                  margin-top: 1rem;
+                  padding: 0.8rem 1.5rem;
+                  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+                  border-radius: 8px;
+                  border-left: 4px solid #38bdf8;
+                  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                  text-align: center;
+                ">
+                  <div style="
+                    font-size: 0.9rem;
+                    color: #0369a1;
+                    font-weight: 600;
+                    letter-spacing: 0.5px;
+                    margin-bottom: 0.2rem;
+                  ">
+                    Aesthetics Score
+                  </div>
+                  <div style="
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: #0c4a6e;
+                  ">
+                    <span id="score" style="color: #0284c7;">87</span>
+                    <span style="font-weight: 400; color: #64748b;"> / 100</span>
+                  </div>
+                </div>
+              </div>
+            </div>
             
         </section>
 
