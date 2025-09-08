@@ -495,11 +495,11 @@
           font-size: 0.85rem;
       }
 
-        .left-section {
-            flex: 1;
+      .left-section {
             display: flex;
             flex-direction: column;
-            max-width: 50%; /* 限制左侧区域最大宽度为50% */
+            gap: 20px;
+            flex: 0 0 400px; /* 固定左侧宽度为400px */
         }
 
         .carousel-container {
@@ -507,17 +507,14 @@
             background: #f8f9fa;
             border-radius: 15px;
             overflow: hidden;
-            margin-bottom: 20px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px; /* 限制轮播图最大宽度 */
-            margin-left: auto;
-            margin-right: auto; /* 居中显示 */
+            aspect-ratio: 1; /* 设置为正方形 */
         }
 
         .carousel-image {
             width: 100%;
-            height: 280px; /* 调整了高度 */
+            height: 100%;
             object-fit: cover;
             display: none;
             transition: opacity 0.5s ease-in-out;
@@ -529,7 +526,7 @@
 
         .carousel-placeholder {
             width: 100%;
-            height: 280px;
+            height: 100%;
             background: linear-gradient(45deg, #f0f2f5, #e9ecef);
             display: flex;
             align-items: center;
@@ -546,7 +543,7 @@
             background: rgba(220, 53, 69, 0.9);
             border: none;
             color: white;
-            width: 40px; /* 稍微缩小按钮 */
+            width: 40px;
             height: 40px;
             border-radius: 50%;
             cursor: pointer;
@@ -571,48 +568,11 @@
             right: 10px;
         }
 
-        /* 配色方案1：淡蓝色 - 当前使用 */
-        .question-box {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            color: #1565c0;
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 15px;
-            line-height: 1.6;
-            box-shadow: 0 8px 25px rgba(187, 222, 251, 0.4);
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .right-section {
-            flex: 1;
-        }
-
-        .answer-box {
-            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
-            color: #7b1fa2;
-            padding: 25px;
-            border-radius: 15px;
-            font-size: 15px;
-            line-height: 1.8;
-            height: 100%;
-            min-height: 400px; /* 调整最小高度 */
-            box-shadow: 0 8px 25px rgba(225, 190, 231, 0.4);
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            overflow-y: auto;
-        }
-
         .carousel-indicators {
             display: flex;
             justify-content: center;
             gap: 8px;
-            margin-top: 15px;
-            margin-bottom: 20px;
+            margin: 15px 0;
         }
 
         .indicator {
@@ -629,6 +589,47 @@
             transform: scale(1.2);
         }
 
+        .question-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #1565c0;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 15px;
+            line-height: 1.6;
+            box-shadow: 0 8px 25px rgba(187, 222, 251, 0.4);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%; /* 与图片等宽 */
+        }
+
+        .right-section {
+            flex: 1; /* 占据剩余空间 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .answer-box {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            color: #7b1fa2;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 15px;
+            line-height: 1.8;
+            box-shadow: 0 8px 25px rgba(225, 190, 231, 0.4);
+            overflow-y: auto;
+            flex: 1; /* 占据右侧全部高度 */
+            min-height: 500px; /* 确保有足够高度 */
+        }
+
+        .answer-title {
+            margin-bottom: 15px; 
+            font-size: 16px;
+            font-weight: bold;
+        }
+
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -637,19 +638,12 @@
             }
             
             .left-section {
-                max-width: 100%;
-            }
-            
-            .carousel-container {
-                max-width: 100%;
-            }
-            
-            .carousel-image, .carousel-placeholder {
-                height: 200px;
+                flex: none;
+                width: 100%;
             }
             
             .answer-box {
-                min-height: 200px;
+                min-height: 250px;
             }
         }
 
@@ -1272,112 +1266,112 @@
                       <p class="teaser-caption">A serene, snow-capped mountain range reflected in a crystal-clear turquoise lake. The towering peaks are dusted with fresh snow, their slopes covered in vibrant green pine trees reaching towards the sky. </p>
                   </div>
           </div>
-
-
+    
+    
           <h3>Image Understanding</h3>
           <div class="container">
-          <div class="left-section">
-              <div class="carousel-container">
-                  <!-- 示例图片，您可以替换为实际图片 -->
-                  <img src="https://via.placeholder.com/400x280/4CAF50/white?text=图片1" alt="图片1" class="carousel-image active">
-                  <img src="https://via.placeholder.com/400x280/2196F3/white?text=图片2" alt="图片2" class="carousel-image">
-                  <img src="https://via.placeholder.com/400x280/FF9800/white?text=图片3" alt="图片3" class="carousel-image">
-                  <img src="https://via.placeholder.com/400x280/E91E63/white?text=图片4" alt="图片4" class="carousel-image">
-                  
-                  <button class="carousel-buttons prev-btn" onclick="changeSlide(-1)">‹</button>
-                  <button class="carousel-buttons next-btn" onclick="changeSlide(1)">›</button>
-              </div>
-              
-              <div class="carousel-indicators">
-                  <span class="indicator active" onclick="currentSlide(1)"></span>
-                  <span class="indicator" onclick="currentSlide(2)"></span>
-                  <span class="indicator" onclick="currentSlide(3)"></span>
-                  <span class="indicator" onclick="currentSlide(4)"></span>
-              </div>
-              
-              <div class="question-box" id="question-text">
-                  这是第一张图片对应的问题。请在这里输入您想要展示的问题内容。
-              </div>
-          </div>
-          
-          <div class="right-section">
-              <div class="answer-box" id="answer-text">
-                  <div>
-                      <h3 style="margin-bottom: 15px; font-size: 16px;">答案：</h3>
-                      <p>这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。</p>
-                  </div>
-              </div>
-          </div>
-      </div>
-  
-      <script>
-          let currentSlideIndex = 0;
-          
-          // 问题和答案数据
-          const qaData = [
-              {
-                  question: "这是第一张图片对应的问题。请在这里输入您想要展示的问题内容。",
-                  answer: "这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。"
-              },
-              {
-                  question: "这是第二张图片对应的问题。您可以在这里描述与图片相关的问题。",
-                  answer: "这是第二张图片的答案。可以包含更详细的解释和说明，帮助用户更好地理解图片内容和相关概念。"
-              },
-              {
-                  question: "第三张图片的问题在这里显示。可以是任何与图片内容相关的询问。",
-                  answer: "第三张图片的答案内容。这里可以提供全面的解答，包括背景信息、详细说明以及相关的补充知识。"
-              },
-              {
-                  question: "第四张图片对应的问题。您可以根据实际需要修改这些问题内容。",
-                  answer: "第四张图片的答案。答案区域支持长文本显示，可以包含多个段落和详细的解释内容，为用户提供完整的信息。"
-              }
-          ];
-  
-          function showSlide(index) {
-              const images = document.querySelectorAll('.carousel-image');
-              const indicators = document.querySelectorAll('.indicator');
-              
-              // 隐藏所有图片
-              images.forEach(img => img.classList.remove('active'));
-              indicators.forEach(indicator => indicator.classList.remove('active'));
-              
-              // 显示当前图片
-              if (images[index]) {
-                  images[index].classList.add('active');
-                  indicators[index].classList.add('active');
-                  
-                  // 更新问题和答案
-                  document.getElementById('question-text').textContent = qaData[index].question;
-                  document.getElementById('answer-text').innerHTML = `
-                      <div>
-                          <h3 style="margin-bottom: 15px; font-size: 16px;">答案：</h3>
-                          <p>${qaData[index].answer}</p>
-                      </div>
-                  `;
-              }
-          }
-  
-          function changeSlide(direction) {
-              const totalSlides = document.querySelectorAll('.carousel-image').length;
-              currentSlideIndex += direction;
-              
-              if (currentSlideIndex >= totalSlides) {
-                  currentSlideIndex = 0;
-              } else if (currentSlideIndex < 0) {
-                  currentSlideIndex = totalSlides - 1;
-              }
-              
-              showSlide(currentSlideIndex);
-          }
-  
-          function currentSlide(index) {
-              currentSlideIndex = index - 1;
-              showSlide(currentSlideIndex);
-          }
-  
-          // 初始化显示第一张图片
-          showSlide(0);
-      </script>
+            <div class="left-section">
+                <div class="carousel-container">
+                    <!-- 示例图片，您可以替换为实际图片 -->
+                    <img src="https://via.placeholder.com/400x400/4CAF50/white?text=图片1" alt="图片1" class="carousel-image active">
+                    <img src="https://via.placeholder.com/400x400/2196F3/white?text=图片2" alt="图片2" class="carousel-image">
+                    <img src="https://via.placeholder.com/400x400/FF9800/white?text=图片3" alt="图片3" class="carousel-image">
+                    <img src="https://via.placeholder.com/400x400/E91E63/white?text=图片4" alt="图片4" class="carousel-image">
+                    
+                    <button class="carousel-buttons prev-btn" onclick="changeSlide(-1)">‹</button>
+                    <button class="carousel-buttons next-btn" onclick="changeSlide(1)">›</button>
+                </div>
+                
+                <div class="carousel-indicators">
+                    <span class="indicator active" onclick="currentSlide(1)"></span>
+                    <span class="indicator" onclick="currentSlide(2)"></span>
+                    <span class="indicator" onclick="currentSlide(3)"></span>
+                    <span class="indicator" onclick="currentSlide(4)"></span>
+                </div>
+                
+                <div class="question-box" id="question-text">
+                    这是第一张图片对应的问题。请在这里输入您想要展示的问题内容。
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="answer-box" id="answer-text">
+                    <div>
+                        <div class="answer-title">答案：</div>
+                        <p>这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。现在右侧区域会占据更多空间来显示完整的答案内容。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <script>
+            let currentSlideIndex = 0;
+            
+            // 问题和答案数据
+            const qaData = [
+                {
+                    question: "这是第一张图片对应的问题。请在这里输入您想要展示的问题内容。",
+                    answer: "这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。现在右侧区域会占据更多空间来显示完整的答案内容。"
+                },
+                {
+                    question: "这是第二张图片对应的问题。您可以在这里描述与图片相关的问题。",
+                    answer: "这是第二张图片的答案。可以包含更详细的解释和说明，帮助用户更好地理解图片内容和相关概念。右侧答案区域现在有足够的空间展示长篇内容。"
+                },
+                {
+                    question: "第三张图片的问题在这里显示。可以是任何与图片内容相关的询问。",
+                    answer: "第三张图片的答案内容。这里可以提供全面的解答，包括背景信息、详细说明以及相关的补充知识。新的布局让答案显示更加清晰易读。"
+                },
+                {
+                    question: "第四张图片对应的问题。您可以根据实际需要修改这些问题内容。",
+                    answer: "第四张图片的答案。答案区域支持长文本显示，可以包含多个段落和详细的解释内容，为用户提供完整的信息。右侧的宽敞布局让阅读体验更佳。"
+                }
+            ];
+    
+            function showSlide(index) {
+                const images = document.querySelectorAll('.carousel-image');
+                const indicators = document.querySelectorAll('.indicator');
+                
+                // 隐藏所有图片
+                images.forEach(img => img.classList.remove('active'));
+                indicators.forEach(indicator => indicator.classList.remove('active'));
+                
+                // 显示当前图片
+                if (images[index]) {
+                    images[index].classList.add('active');
+                    indicators[index].classList.add('active');
+                    
+                    // 更新问题和答案
+                    document.getElementById('question-text').textContent = qaData[index].question;
+                    document.getElementById('answer-text').innerHTML = `
+                        <div>
+                            <div class="answer-title">答案：</div>
+                            <p>${qaData[index].answer}</p>
+                        </div>
+                    `;
+                }
+            }
+    
+            function changeSlide(direction) {
+                const totalSlides = document.querySelectorAll('.carousel-image').length;
+                currentSlideIndex += direction;
+                
+                if (currentSlideIndex >= totalSlides) {
+                    currentSlideIndex = 0;
+                } else if (currentSlideIndex < 0) {
+                    currentSlideIndex = totalSlides - 1;
+                }
+                
+                showSlide(currentSlideIndex);
+            }
+    
+            function currentSlide(index) {
+                currentSlideIndex = index - 1;
+                showSlide(currentSlideIndex);
+            }
+    
+            // 初始化显示第一张图片
+            showSlide(0);
+        </script>
           
         </section>
 
