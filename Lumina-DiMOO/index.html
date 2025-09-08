@@ -507,7 +507,7 @@
             border-radius: 15px;
             overflow: hidden;
             margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
         }
 
         .carousel-image {
@@ -1292,7 +1292,7 @@
           <div class="right-section">
               <div class="answer-box" id="answer-text">
                   <div>
-                      <h3 style="margin-bottom: 15px; color: white; font-size: 18px;">答案：</h3>
+                      <h3 style="margin-bottom: 15px; color: red; font-size: 20px;">Answer：</h3>
                       <p>这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。</p>
                   </div>
               </div>
@@ -1339,7 +1339,7 @@
                   document.getElementById('question-text').textContent = qaData[index].question;
                   document.getElementById('answer-text').innerHTML = `
                       <div>
-                          <h3 style="margin-bottom: 15px; color: white; font-size: 18px;">答案：</h3>
+                          <h3 style="margin-bottom: 15px; color: white; font-size: 20px;">答案：</h3>
                           <p>${qaData[index].answer}</p>
                       </div>
                   `;
