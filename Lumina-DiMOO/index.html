@@ -518,7 +518,7 @@
     /* 悬浮的发光效果（亮蓝色） */
 
 
-      /* 悬浮的发光效果（亮蓝色） */
+/*       /* 悬浮的发光效果（亮蓝色） */
       tr:hover {
         box-shadow: 0px 4px 15px rgba(0, 136, 255, 0.6); 
         border-radius: 5px;
@@ -537,9 +537,39 @@
       }
       
       /* 选择特定单元格微调（如必要） */
-      tr.highlight-row td {
-        /* 如果仍需调整某列视觉对齐情况，可以在此处微调 */
-      }
+        tr.highlight-row td {
+          /* 如果仍需调整某列视觉对齐情况，可以在此处微调 */
+        } */
+
+              /* 分组标题白底深蓝字，去掉背景浅蓝 */
+        tbody tr th.has-background-light {
+            background: #ffffff !important;
+            color: #1a237e;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            border: none !important;
+          }
+
+          /* 行悬浮白底不变，字体加深 */
+        tbody tr:hover:not(.highlight-row) {
+            background-color: #ffffff !important;
+            color: #0d47a1 !important;
+            cursor: default;
+            transition: color 0.3s ease;
+          }
+
+          /* 突出最后一行（我们的模型），始终生效 */
+        tbody tr.highlight-row {
+            background-color: #bbdefb !important;
+            color: #0d47a1 !important;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 0 12px 4px rgba(33, 150, 243, 0.7);
+            transform: scale(1.02);
+            transition: none;
+            /* 取消过渡动画 */
+          }
               
       /* Responsive adjustments */
       @media (max-width: 768px) {
@@ -807,10 +837,10 @@
             <a href="" target="_blank">Tianfan Xue</a><sup>1,6</sup>
           </span>
           <span class="author-block">
-            <a href="" target="_blank">Bin Fu</a><sup>1,†</sup>
+            <a href="" target="_blank">Xiaohong Liu</a><sup>3,2,†</sup>
           </span>
           <span class="author-block">
-            <a href="" target="_blank">Xiaohong Liu</a><sup>3,2,†</sup>
+            <a href="" target="_blank">Bin Fu</a><sup>1,†</sup>
           </span>
           <span class="author-block">
             <a href="" target="_blank">Yu Qiao</a><sup>1,†</sup>
