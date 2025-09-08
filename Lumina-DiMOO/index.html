@@ -43,6 +43,25 @@
   <title>Lumina-DiMOO: A Unified Discrete Diffusion Model for Multi-Modal Generation and Understanding</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+      
+      body, html {
+          margin: 0 !important;
+          padding: 0 !important;
+          height: 100%;
+      }
+      
+      /* 重置Bulma的hero样式 */
+      .hero.is-fullheight {
+          margin: 0 !important;
+          padding: 0 !important;
+          min-height: 100vh;
+      }
+    
       :root {
           --primary-color: #3b82f6;
           --secondary-color: #1d4ed8;
@@ -635,13 +654,7 @@
                 min-height: 250px;
             }
         }
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
 
-      
 
 /*       /* 悬浮+发光效果（亮蓝色） */
       tr:hover {
