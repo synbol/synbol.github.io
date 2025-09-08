@@ -495,54 +495,151 @@
           font-size: 0.85rem;
       }
 
-      .carousel {
+      .left-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+      .carousel-container {
             position: relative;
-            width: 400px;
-            height: 300px;
-            border: 2px solid lightgreen;
-            border-radius: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
             overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
-        .carousel img {
+
+        .carousel-image {
             width: 100%;
-            height: 100%;
+            height: 350px;
+            object-fit: cover;
             display: none;
+            transition: opacity 0.5s ease-in-out;
         }
-        .carousel img.active {
+
+        .carousel-image.active {
             display: block;
         }
+
+        .carousel-placeholder {
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(45deg, #f0f2f5, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #6c757d;
+            border: 2px dashed #dee2e6;
+        }
+
         .carousel-buttons {
             position: absolute;
             top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
             transform: translateY(-50%);
-        }
-        .carousel-buttons button {
-            background-color: transparent;
-            border: 2px solid red;
-            width: 30px;
-            height: 30px;
+            background: rgba(220, 53, 69, 0.9);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
+
+        .carousel-buttons:hover {
+            background: rgba(220, 53, 69, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-btn {
+            left: 15px;
+        }
+
+        .next-btn {
+            right: 15px;
+        }
+
         .question-box {
-            margin-top: 10px;
-            height: 50px;
-            border: 2px solid lightgreen;
-            border-radius: 10px;
-            padding: 5px;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 16px;
+            line-height: 1.6;
+            box-shadow: 0 8px 25px rgba(116, 185, 255, 0.3);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
         }
+
+        .right-section {
+            flex: 1;
+        }
+
         .answer-box {
-            width: 400px;
-            height: 300px;
-            border: 2px solid lightgreen;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
+            background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            font-size: 16px;
+            line-height: 1.8;
+            height: 100%;
+            min-height: 490px;
+            box-shadow: 0 8px 25px rgba(85, 239, 196, 0.3);
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            overflow-y: auto;
         }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dee2e6;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #dc3545;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .carousel-image, .carousel-placeholder {
+                height: 250px;
+            }
+            
+            .answer-box {
+                min-height: 200px;
+            }
+        }
+
+      
 
 /*       /* 悬浮+发光效果（亮蓝色） */
       tr:hover {
@@ -1165,52 +1262,117 @@
 
           <h3>Image Understanding</h3>
           <div class="container">
-          <div>
-                <div class="carousel">
-                    <img src="image1.jpg" alt="Image 1" class="active" data-question="问题1" data-answer="答案1">
-                    <img src="image2.jpg" alt="Image 2" data-question="问题2" data-answer="答案2">
-                    <img src="image3.jpg" alt="Image 3" data-question="问题3" data-answer="答案3">
-                    
-                    <div class="carousel-buttons">
-                        <button id="prevBtn">&lt;</button>
-                        <button id="nextBtn">&gt;</button>
-                    </div>
-                </div>
-                <div class="question-box" id="question">问题在这里</div>
-            </div>
-    
-            <div class="answer-box" id="answer">
-                答案在这里
-            </div>
-        </div>
+          <div class="left-section">
+              <div class="carousel-container">
+                  <!-- 示例图片，您可以替换为实际图片 -->
+                  <img src="https://via.placeholder.com/600x350/4CAF50/white?text=图片1" alt="图片1" class="carousel-image active">
+                  <img src="https://via.placeholder.com/600x350/2196F3/white?text=图片2" alt="图片2" class="carousel-image">
+                  <img src="https://via.placeholder.com/600x350/FF9800/white?text=图片3" alt="图片3" class="carousel-image">
+                  <img src="https://via.placeholder.com/600x350/E91E63/white?text=图片4" alt="图片4" class="carousel-image">
+                  
+                  <!-- 如果没有图片，显示占位符 -->
+                  <!-- <div class="carousel-placeholder">图片在这里</div> -->
+                  
+                  <button class="carousel-buttons prev-btn" onclick="changeSlide(-1)">‹</button>
+                  <button class="carousel-buttons next-btn" onclick="changeSlide(1)">›</button>
+              </div>
+              
+              <div class="carousel-indicators">
+                  <span class="indicator active" onclick="currentSlide(1)"></span>
+                  <span class="indicator" onclick="currentSlide(2)"></span>
+                  <span class="indicator" onclick="currentSlide(3)"></span>
+                  <span class="indicator" onclick="currentSlide(4)"></span>
+              </div>
+              
+              <div class="question-box" id="question-text">
+                  这是第一张图片对应的问题。请在这里输入您想要展示的问题内容。
+              </div>
+          </div>
+          
+          <div class="right-section">
+              <div class="answer-box" id="answer-text">
+                  <div>
+                      <h3 style="margin-bottom: 15px; color: white; font-size: 18px;">答案：</h3>
+                      <p>这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。</p>
+                  </div>
+              </div>
+          </div>
+      </div>
   
-        <script>
-            let currentIndex = 0;
-            const images = document.querySelectorAll('.carousel img');
-            const questionBox = document.getElementById('question');
-            const answerBox = document.getElementById('answer');
-    
-            const updateContent = () => {
-                images.forEach((img, index) => {
-                    img.classList.toggle('active', index === currentIndex);
-                });
-                const activeImage = images[currentIndex];
-                questionBox.textContent = activeImage.getAttribute('data-question');
-                answerBox.textContent = activeImage.getAttribute('data-answer');
-            }
-    
-            document.getElementById('prevBtn').addEventListener('click', () => {
-                currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
-                updateContent();
-            });
-    
-            document.getElementById('nextBtn').addEventListener('click', () => {
-                currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
-                updateContent();
-            });
-    
-            updateContent();
-        </script>
+      <script>
+          let currentSlideIndex = 0;
+          
+          // 问题和答案数据
+          const qaData = [
+              {
+                  question: "这是第一张图片对应的问题。请在这里输入您想要展示的问题内容。",
+                  answer: "这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。"
+              },
+              {
+                  question: "这是第二张图片对应的问题。您可以在这里描述与图片相关的问题。",
+                  answer: "这是第二张图片的答案。可以包含更详细的解释和说明，帮助用户更好地理解图片内容和相关概念。"
+              },
+              {
+                  question: "第三张图片的问题在这里显示。可以是任何与图片内容相关的询问。",
+                  answer: "第三张图片的答案内容。这里可以提供全面的解答，包括背景信息、详细说明以及相关的补充知识。"
+              },
+              {
+                  question: "第四张图片对应的问题。您可以根据实际需要修改这些问题内容。",
+                  answer: "第四张图片的答案。答案区域支持长文本显示，可以包含多个段落和详细的解释内容，为用户提供完整的信息。"
+              }
+          ];
+  
+          function showSlide(index) {
+              const images = document.querySelectorAll('.carousel-image');
+              const indicators = document.querySelectorAll('.indicator');
+              
+              // 隐藏所有图片
+              images.forEach(img => img.classList.remove('active'));
+              indicators.forEach(indicator => indicator.classList.remove('active'));
+              
+              // 显示当前图片
+              if (images[index]) {
+                  images[index].classList.add('active');
+                  indicators[index].classList.add('active');
+                  
+                  // 更新问题和答案
+                  document.getElementById('question-text').textContent = qaData[index].question;
+                  document.getElementById('answer-text').innerHTML = `
+                      <div>
+                          <h3 style="margin-bottom: 15px; color: white; font-size: 18px;">答案：</h3>
+                          <p>${qaData[index].answer}</p>
+                      </div>
+                  `;
+              }
+          }
+  
+          function changeSlide(direction) {
+              const totalSlides = document.querySelectorAll('.carousel-image').length;
+              currentSlideIndex += direction;
+              
+              if (currentSlideIndex >= totalSlides) {
+                  currentSlideIndex = 0;
+              } else if (currentSlideIndex < 0) {
+                  currentSlideIndex = totalSlides - 1;
+              }
+              
+              showSlide(currentSlideIndex);
+          }
+  
+          function currentSlide(index) {
+              currentSlideIndex = index - 1;
+              showSlide(currentSlideIndex);
+          }
+  
+          // 初始化显示第一张图片
+          showSlide(0);
+  
+          // 可选：自动轮播（每5秒切换一次）
+          // setInterval(() => {
+          //     changeSlide(1);
+          // }, 5000);
+      </script>
+          
         </section>
 
         <div class="section-divider"></div>
