@@ -616,6 +616,37 @@
           .teaser-grid {
               grid-template-columns: repeat(2, 1fr);
           }
+
+          .carousel {
+            position: relative;
+            width: 400px;
+            margin-right: 20px;
+          }
+          .carousel img {
+              width: 100%;
+              height: auto;
+              display: none;
+          }
+          .carousel img.active {
+              display: block;
+          }
+          .carousel-buttons {
+              position: absolute;
+              top: 50%;
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              transform: translateY(-50%);
+          }
+          .carousel-buttons button {
+              background-color: rgba(255, 255, 255, 0.7);
+              border: none;
+              padding: 10px;
+              cursor: pointer;
+          }
+          .question-box, .answer-box {
+              margin-top: 10px;
+          }
       }
 
       @media (max-width: 480px) {
@@ -1114,70 +1145,55 @@
 
 
           <h3>Image Understanding</h3>
-          <div class="columns is-vcentered">
-            <!-- ===== 左侧：图像容器 ===== -->
-            <div class="column is-half"
-              style="display: flex; flex-direction: column; justify-content: center; height: 100%; align-items: center;">
-              <!-- 外层容器添加 align-items: center 确保水平居中 -->
-              <div style="display: flex; flex-direction: column; align-items: center; width: 550px;">
-                <!-- 图像容器 -->
-                <div class="image-container" style="
-                  position: relative;
-                  width:480px;
-                  height: 360px;
-                  margin: 0 auto;
-                  overflow: hidden;
-                  border-radius: 8px;
-                  background: #f5f5f5;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                ">
-                  <img id="main-img" src="img1.jpg" style="width: 100%; height: 100%; object-fit: cover;" />
-                  <!-- 导航按钮 -->
-                  <button id="prev" class="button is-small is-light"
-                    style="position:absolute;left:12px;top:50%;transform:translateY(-50%);">
-                    <span class="icon"><i class="fas fa-chevron-left"></i></span>
-                  </button>
-                  <button id="next" class="button is-small is-light"
-                    style="position:absolute;right:12px;top:50%;transform:translateY(-50%);">
-                    <span class="icon"><i class="fas fa-chevron-right"></i></span>
-                  </button>
+          <div class="container">
+          <div class="carousel">
+                <img src="image1.jpg" alt="Image 1" class="active" data-question="问题1" data-answer="答案1">
+                <img src="image2.jpg" alt="Image 2" data-question="问题2" data-answer="答案2">
+                <img src="image3.jpg" alt="Image 3" data-question="问题3" data-answer="答案3">
+                
+                <div class="carousel-buttons">
+                    <button id="prevBtn">&lt;</button>
+                    <button id="nextBtn">&gt;</button>
                 </div>
     
-                <!-- 评分框 (与图像同宽且对齐) -->
-                <div style="
-                  width: 480px;
-                  margin-top: 1rem;
-                  padding: 0.8rem 1.5rem;
-                  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-                  border-radius: 8px;
-                  border-left: 4px solid #38bdf8;
-                  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-                  text-align: center;
-                ">
-                  <div style="
-                    font-size: 0.9rem;
-                    color: #0369a1;
-                    font-weight: 600;
-                    letter-spacing: 0.5px;
-                    margin-bottom: 0.2rem;
-                  ">
-                    Aesthetics Score
-                  </div>
-                  <div style="
-                    font-size: 1.25rem;
-                    font-weight: 700;
-                    color: #0c4a6e;
-                  ">
-                    <span id="score" style="color: #0284c7;">87</span>
-                    <span style="font-weight: 400; color: #64748b;"> / 100</span>
-                  </div>
+                <div class="question-box">
+                    <input type="text" id="question" placeholder="问题" readonly>
                 </div>
-              </div>
             </div>
             
+            <div class="answer-box">
+                <textarea id="answer" placeholder="答案" rows="4" cols="30" readonly></textarea>
+            </div>
+        </div>
+  
+        <script>
+            let currentIndex = 0;
+            const images = document.querySelectorAll('.carousel img');
+            const questionInput = document.getElementById('question');
+            const answerTextarea = document.getElementById('answer');
+    
+            const updateContent = () => {
+                images.forEach((img, index) => {
+                    img.classList.toggle('active', index === currentIndex);
+                });
+                const activeImage = images[currentIndex];
+                questionInput.value = activeImage.getAttribute('data-question');
+                answerTextarea.value = activeImage.getAttribute('data-answer');
+            }
+    
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                currentIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+                updateContent();
+            });
+    
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                currentIndex = (currentIndex === images.length - 1) ? 0 : currentIndex + 1;
+                updateContent();
+            });
+    
+            updateContent();
+        </script>
+
         </section>
 
         <div class="section-divider"></div>
