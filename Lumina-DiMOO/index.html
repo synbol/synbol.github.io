@@ -495,24 +495,29 @@
           font-size: 0.85rem;
       }
 
-      .left-section {
+        .left-section {
             flex: 1;
             display: flex;
             flex-direction: column;
+            max-width: 50%; /* 限制左侧区域最大宽度为50% */
         }
 
-      .carousel-container {
+        .carousel-container {
             position: relative;
             background: #f8f9fa;
             border-radius: 15px;
             overflow: hidden;
             margin-bottom: 20px;
-            box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px; /* 限制轮播图最大宽度 */
+            margin-left: auto;
+            margin-right: auto; /* 居中显示 */
         }
 
         .carousel-image {
-            width: 50%;
-            height: 425px;
+            width: 100%;
+            height: 280px; /* 调整了高度 */
             object-fit: cover;
             display: none;
             transition: opacity 0.5s ease-in-out;
@@ -523,8 +528,8 @@
         }
 
         .carousel-placeholder {
-            width: 65%;
-            height: 500px;
+            width: 100%;
+            height: 280px;
             background: linear-gradient(45deg, #f0f2f5, #e9ecef);
             display: flex;
             align-items: center;
@@ -541,11 +546,11 @@
             background: rgba(220, 53, 69, 0.9);
             border: none;
             color: white;
-            width: 50px;
-            height: 50px;
+            width: 40px; /* 稍微缩小按钮 */
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 18px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -559,22 +564,23 @@
         }
 
         .prev-btn {
-            left: 15px;
+            left: 10px;
         }
 
         .next-btn {
-            right: 15px;
+            right: 10px;
         }
 
+        /* 配色方案1：淡蓝色 - 当前使用 */
         .question-box {
-            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-            color: white;
-            padding: 25px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: #1565c0;
+            padding: 20px;
             border-radius: 15px;
-            font-size: 20px;
+            font-size: 15px;
             line-height: 1.6;
-            box-shadow: 0 8px 25px rgba(205, 133, 63, 0.3);
-            min-height: 120px;
+            box-shadow: 0 8px 25px rgba(187, 222, 251, 0.4);
+            min-height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -584,17 +590,17 @@
         .right-section {
             flex: 1;
         }
-          
+
         .answer-box {
-            background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
-            color: white;
-            padding: 30px;
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            color: #7b1fa2;
+            padding: 25px;
             border-radius: 15px;
-            font-size: 20px;
+            font-size: 15px;
             line-height: 1.8;
             height: 100%;
-            min-height: 300px;
-            box-shadow: 0 8px 25px rgba(60, 179, 113, 0.3);
+            min-height: 400px; /* 调整最小高度 */
+            box-shadow: 0 8px 25px rgba(225, 190, 231, 0.4);
             display: flex;
             align-items: flex-start;
             justify-content: flex-start;
@@ -610,8 +616,8 @@
         }
 
         .indicator {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: #dee2e6;
             cursor: pointer;
@@ -630,8 +636,16 @@
                 padding: 20px;
             }
             
+            .left-section {
+                max-width: 100%;
+            }
+            
+            .carousel-container {
+                max-width: 100%;
+            }
+            
             .carousel-image, .carousel-placeholder {
-                height: 250px;
+                height: 200px;
             }
             
             .answer-box {
@@ -1265,13 +1279,10 @@
           <div class="left-section">
               <div class="carousel-container">
                   <!-- 示例图片，您可以替换为实际图片 -->
-                  <img src="teasers/understanding_1.jpeg" alt="图片1" class="carousel-image active">
-                  <img src="teasers/understanding_1.jpeg" alt="图片2" class="carousel-image">
-                  <img src="teasers/understanding_1.jpeg" alt="图片3" class="carousel-image">
-                  <img src="teasers/understanding_1.jpeg" alt="图片4" class="carousel-image">
-                  
-                  <!-- 如果没有图片，显示占位符 -->
-                  <!-- <div class="carousel-placeholder">图片在这里</div> -->
+                  <img src="https://via.placeholder.com/400x280/4CAF50/white?text=图片1" alt="图片1" class="carousel-image active">
+                  <img src="https://via.placeholder.com/400x280/2196F3/white?text=图片2" alt="图片2" class="carousel-image">
+                  <img src="https://via.placeholder.com/400x280/FF9800/white?text=图片3" alt="图片3" class="carousel-image">
+                  <img src="https://via.placeholder.com/400x280/E91E63/white?text=图片4" alt="图片4" class="carousel-image">
                   
                   <button class="carousel-buttons prev-btn" onclick="changeSlide(-1)">‹</button>
                   <button class="carousel-buttons next-btn" onclick="changeSlide(1)">›</button>
@@ -1292,7 +1303,7 @@
           <div class="right-section">
               <div class="answer-box" id="answer-text">
                   <div>
-                      <h3 style="margin-bottom: 15px; color: red; font-size: 20px;">Answer：</h3>
+                      <h3 style="margin-bottom: 15px; font-size: 16px;">答案：</h3>
                       <p>这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。</p>
                   </div>
               </div>
@@ -1305,8 +1316,8 @@
           // 问题和答案数据
           const qaData = [
               {
-                  question: "Please describe this image.",
-                  answer: "The image is a panoramic view of a cityscape with a body of water in the background. The city is surrounded by greenery and mountains in the distance. The sky is partly cloudy, suggesting a pleasant day. The image is taken from a high vantage point, showcasing the cityscape and its surrounding environment. The composition of the image gives a sense of scale and depth. There are no discernible texts or human figures in the image."
+                  question: "这是第一张图片对应的问题。请在这里输入您想要展示的问题内容。",
+                  answer: "这是第一张图片问题对应的答案。您可以在这里提供详细的解答内容。答案可以很长，这个区域会自动支持滚动显示。"
               },
               {
                   question: "这是第二张图片对应的问题。您可以在这里描述与图片相关的问题。",
@@ -1339,7 +1350,7 @@
                   document.getElementById('question-text').textContent = qaData[index].question;
                   document.getElementById('answer-text').innerHTML = `
                       <div>
-                          <h3 style="margin-bottom: 15px; color: red; font-size: 20px;">Answer：</h3>
+                          <h3 style="margin-bottom: 15px; font-size: 16px;">答案：</h3>
                           <p>${qaData[index].answer}</p>
                       </div>
                   `;
@@ -1366,11 +1377,6 @@
   
           // 初始化显示第一张图片
           showSlide(0);
-  
-          // 可选：自动轮播（每5秒切换一次）
-          // setInterval(() => {
-          //     changeSlide(1);
-          // }, 5000);
       </script>
           
         </section>
